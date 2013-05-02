@@ -3,6 +3,8 @@
  */
 package com.kaka.dailyrecord;
 
+import com.kaka.dailyrecord.ui.Login;
+
 /**
  * @author KaKa
  *

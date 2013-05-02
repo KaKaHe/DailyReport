@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kaka.dailyrecord;
+package com.kaka.dailyrecord.ui;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -212,7 +212,11 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR001_LOGIN)) {
-//			Button Login is clicked, action executed immidiately.
+//			Button Login is clicked, to validate the input username and password immidiately.
+			/*
+			 * This piece of code needs to be extracted into Logical package, do the refactoring later.
+			 * All user validation code.
+			 */
 			String userName = jtf_UserName.getText();
 			try {
 //				String passWord = MD5.encrypt(jpf_Password.getDocument().getText(0, 4));
