@@ -9,11 +9,15 @@ package com.kaka.common;
  */
 public final class CommandList {
 
-	public static final String TOTAL_TITLE = "Dairy Record";
+	public static final String TOTAL_TITLE = "Daily Record";
 //	Label area:
 //	Login window
 	public static final String DR001_USERNAME = "User Name:";
 	public static final String DR001_PASSWORD = "Password:";
+	
+//	Register window
+	public static final String DR002_FIRSTNAME = "First Name:";
+	public static final String DR002_LASTNAME = "Last Name:";
 	
 //	Button area:
 //	Login window
