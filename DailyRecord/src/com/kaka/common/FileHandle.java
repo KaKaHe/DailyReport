@@ -32,6 +32,11 @@ public class FileHandle implements Serializable {
 	}
 	
 	
+	/**
+	 * @param strFileName	the file name want to be read
+	 * @return	all file content
+	 * @throws Exception
+	 */
 	public static String readDataFile(String strFileName) {
 //		The extension of the data file .drd
 //		The reading path of the data file is "./data"
@@ -39,7 +44,7 @@ public class FileHandle implements Serializable {
 		try {
 //			FileInputStream fis = new FileInputStream(f);
 //			InputStreamReader isr = new InputStreamReader(fis);
-			@SuppressWarnings("resource")
+//			@SuppressWarnings("resource")
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 			StringBuilder whole = new StringBuilder();
 			String result = "";
@@ -51,6 +56,7 @@ public class FileHandle implements Serializable {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			//throw e;
 		}
 		return null;
 	}

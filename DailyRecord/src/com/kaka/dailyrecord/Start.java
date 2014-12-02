@@ -3,7 +3,7 @@
  */
 package com.kaka.dailyrecord;
 
-import com.kaka.dailyrecord.ui.Login;
+import com.kaka.dailyrecord.pages.Login;
 
 /**
  * @author KaKa
@@ -17,7 +17,6 @@ public class Start {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Login.getInstance();
-
 	}
 
 }
