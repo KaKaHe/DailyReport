@@ -52,6 +52,7 @@ public class FileHandle implements Serializable {
 				whole.append(result);
 			}
 //			System.out.println(whole.toString());
+			br.close();
 			return whole.toString();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

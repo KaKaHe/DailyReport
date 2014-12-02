@@ -219,6 +219,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 			 * All user validation code.
 			 */
 			String userName = jtf_UserName.getText();
+			String strUserInfo = "";
 			try {
 //				String passWord = MD5.encrypt(jpf_Password.getDocument().getText(0, 4));
 //				String passWord = "";
@@ -226,8 +227,10 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 				passDoc.getLength();
 				String passWord = MD5.encrypt(passDoc.getText(0, passDoc.getLength()));
 				
+				strUserInfo = DataHandle.validatePassword(userName, passWord);
+				
 //				Validate the input Username and Password
-				if(DataHandle.validatePassword(userName, passWord).equals("")) {
+				if(strUserInfo.equals("")) {
 //					if the input UserName or Password is invalidate.
 					JOptionPane.showMessageDialog(this.getParent(), "User Name or Password is incorrect.");
 					jtf_UserName.setText("");
@@ -252,6 +255,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 			new RegisterWindow();
 		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR001_DELETE)) {
 //			Button Delete is clicked, action of deleting currently input user is executed.
+//			Call Function <deleteExistingUser>
 		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR001_FORGET)) {
 //			Button Forget is clicked, which indicates that the user forgets his/her password, browse to password reset window.
 		}
