@@ -8,9 +8,15 @@ package com.kaka.common;
  *
  */
 public class DataHandle {
+/******Global Variables Declaration***************************************************************************/
+	 private static String strActiveStatus = "Status=\"A\"";
+	 private static String strInactiveStatus = "Status=\"I\"";
+	 private static String strErrorStatus = "Status=\"E\"";
+	 private static String strFile_User = "register";
+/************************************************************************************************************/
 
 	public static String validatePassword(String UserName, String Password) {
-		String strList = FileHandle.readDataFile("register");
+		String strList = FileHandle.readDataFile(strFile_User);
 		
 		strList = strList.replace("<DairyRecord>", "");
 		strList = strList.replace("</DairyRecord>", "");
@@ -36,7 +42,9 @@ public class DataHandle {
 //				Return all user information but username and password,
 //				Different values are delimetered by ",", and title and value are delimetered by "="
 //				The values are quoted.
-				strInfo = strRest.substring(strRest.indexOf("UserId"), strRest.indexOf("></infos>"));
+				if(strRest.indexOf(strActiveStatus) > 0) {
+					strInfo = strRest.substring(strRest.indexOf("UserId"), strRest.indexOf("></infos>"));
+				}
 				break;
 			}
 		}
@@ -54,9 +62,9 @@ public class DataHandle {
 		int iRet = 0;
 		
 		String strList = FileHandle.readDataFile("register");
-		String strCurrStatus = "Status=\"A\"";
-		String strNewStatus = "Status=\"I\"";
-		String strErrStatus = "Status=\"E\"";
+//		String strCurrStatus = "Status=\"A\"";
+//		String strNewStatus = "Status=\"I\"";
+//		String strErrStatus = "Status=\"E\"";
 		
 		strList = strList.replace("<DairyRecord>", "");
 		strList = strList.replace("</DairyRecord>", "");
@@ -79,10 +87,10 @@ public class DataHandle {
 			String strCompare = "<UserName>" + UserName + "</UserName><Password>" + Password + "</Password>";
 			if(strCompare.equals(strUP)) {
 				//If the user name and password are validated and the user is actived, change the user status to inactive.
-				if(singleRecord.indexOf(strCurrStatus) > 0){
-					singleRecord = singleRecord.replace(strCurrStatus, strNewStatus);
+				if(singleRecord.indexOf(strActiveStatus) > 0){
+					singleRecord = singleRecord.replace(strActiveStatus, strInactiveStatus);
 					iRet = 1;
-				} else if (singleRecord.indexOf(strErrStatus) > 0) {
+				} else if (singleRecord.indexOf(strErrorStatus) > 0) {
 					iRet = 50;
 				} else {
 					iRet = 99;
@@ -101,6 +109,14 @@ public class DataHandle {
 		}
 		
 		sbUpdated.append("</DairyRecord>");
+		
+		//After validating the username and password, rewrite the register file.
+		if(iRet == 1) {
+//			if(!FileHandle.writeDataFileBW(strFile_User, sbUpdated.toString())) {
+			if(!FileHandle.writeDataFileFos(strFile_User, sbUpdated.toString())) {
+				iRet = 0;
+			}
+		}
 
 		
 		return iRet; //0 means fail to delete the user.

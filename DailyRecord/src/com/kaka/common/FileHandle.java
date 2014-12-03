@@ -33,8 +33,9 @@ public class FileHandle implements Serializable {
 	
 	
 	/**
+	 * This function is used to read WHOLE data stream from specific file.
 	 * @param strFileName	the file name want to be read
-	 * @return	all file content
+	 * @return	all file content, if NULL, it means error occured.
 	 * @throws Exception
 	 */
 	public static String readDataFile(String strFileName) {
@@ -69,6 +70,7 @@ public class FileHandle implements Serializable {
 	 * @return a flag of succeed.
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unused")
 	public boolean outputToFile(String strDirectory, int[] objSave, String strFileName, String[] strStatistics) throws Exception {
 		try {
 			File fObjSave = new File(strDirectory);
@@ -89,38 +91,76 @@ public class FileHandle implements Serializable {
 				}
 			}
 			
-			return writeObject(strFileName, strSaved, fObjSave);
+			return false;//writeObject(strFileName, strSaved, fObjSave);
 		} catch (Exception e) {
 			throw e;
 		}
 	}
 	
 	/**
-	 * Output string stream to file.
+	 * This function is used to write contents to file, it will overwrite existing content.
+	 * This function uses BufferedWriter
 	 * @param str_FileName file name
 	 * @param obj_Save the saving object
 	 * @param str_Extension the file's extension
 	 * @return true if the object is successfully written on the disk otherwise false
 	 * @throws Exception 
 	 */
-	private boolean writeObject(String str_FileName, String obj_Save, File f_ObjSave) throws Exception {
+	public static boolean writeDataFileBW(String strFileName, String strContent) {
+//		The extension of the data file .drd
+//		The writing path of the data file is "./data"
+		File f = new File("./data/" + strFileName + ".drd");
 		try {			
-			String str_FullName = f_ObjSave.getPath() + "\\" + str_FileName + ".txt";
-			
-			FileOutputStream fos_FileOut = new FileOutputStream(str_FullName);
-			byte[] buffer = obj_Save.getBytes();
+//			FileOutputStream fos = new FileOutputStream(f);
+//			byte[] buffer = strContent.getBytes();
 
-			fos_FileOut.write(buffer, 0, buffer.length);
-			fos_FileOut.close();
+			BufferedWriter bw = new BufferedWriter(new java.io.OutputStreamWriter(new FileOutputStream(f)));
+			bw.write(strContent);
+			bw.close();
+			
+//			fos.write(buffer, 0, buffer.length);
+//			fos.close();
 			return true;
 		}catch(FileNotFoundException ex){ 
 			ex.printStackTrace();
-			throw ex;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			throw e;
 		}
+		return false;
+	}
+	
+	/**
+	 * This function is used to write contents to file, it will overwrite existing content.
+	 * This function uses FileOutputStream
+	 * @param str_FileName file name
+	 * @param obj_Save the saving object
+	 * @param str_Extension the file's extension
+	 * @return true if the object is successfully written on the disk otherwise false
+	 * @throws Exception 
+	 */
+	public static boolean writeDataFileFos(String strFileName, String strContent) {
+//		The extension of the data file .drd
+//		The writing path of the data file is "./data"
+		File f = new File("./data/" + strFileName + ".drd");
+		try {			
+			FileOutputStream fos = new FileOutputStream(f);
+			byte[] buffer = strContent.getBytes();
+
+//			BufferedWriter bw = new BufferedWriter(new java.io.OutputStreamWriter(new FileOutputStream(f)));
+//			bw.write(strContent);
+//			bw.close();
+			
+			fos.write(buffer, 0, buffer.length);
+			fos.close();
+			return true;
+		}catch(FileNotFoundException ex){ 
+			ex.printStackTrace();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	/**

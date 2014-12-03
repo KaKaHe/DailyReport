@@ -29,4 +29,12 @@ public final class CommandList {
 //	Register window
 	
 /*********************************************************************************************/
+	
+/***Error Message:****************************************************************************/
+	public static final String MSG001 = "User Name or Password is incorrect.";
+	public static final String MSG002 = "The user is not existed.";
+	public static final String MSG003 = "There is error about this account, please contact administrator.";
+	public static final String MSG004 = "Deleting user failed.";
+	public static final String MSG005 = "User has been deleted.";
+/*********************************************************************************************/
 }

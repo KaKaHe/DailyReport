@@ -10,6 +10,7 @@ import javax.swing.text.Document;
 //import sun.awt.im.InputContext;
 //import javax.swing.border.*;
 
+
 import java.awt.event.*;
 import java.awt.*;
 import java.io.UnsupportedEncodingException;
@@ -109,6 +110,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 //		Delete an exist Account;
 		JButton jb_DelUser = new JButton(CommandList.DR001_DELETE);
 		jb_DelUser.setFont(new Font("TimesRoman", Font.BOLD, 14));
+		jb_DelUser.addActionListener(this);
 		jp_UserName.add(jb_DelUser);
 		jp_UserName.add(new Label());
 		
@@ -213,26 +215,31 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+		String userName = jtf_UserName.getText();
+		String strUserInfo = "";
+		Document passDoc = jpf_Password.getDocument();
 		if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR001_SIGNIN)) {
-//			Button Login is clicked, to validate the input username and password immidiately.
+//			Button "Sign in" is clicked, to validate the input username and password immidiately.
 			/*
 			 * All user validation code.
 			 */
-			String userName = jtf_UserName.getText();
-			String strUserInfo = "";
+//			String userName = jtf_UserName.getText();
+//			String strUserInfo = "";
 			try {
 //				String passWord = MD5.encrypt(jpf_Password.getDocument().getText(0, 4));
 //				String passWord = "";
-				Document passDoc = jpf_Password.getDocument();
-				passDoc.getLength();
-				String passWord = MD5.encrypt(passDoc.getText(0, passDoc.getLength()));
+//				Document passDoc = jpf_Password.getDocument();
+//				passDoc.getLength();
 				
-				strUserInfo = DataHandle.validatePassword(userName, passWord);
+				if(passDoc.getLength() > 5 && passDoc.getLength() < 17){
+					String passWord = MD5.encrypt(passDoc.getText(0, passDoc.getLength()));
+					strUserInfo = DataHandle.validatePassword(userName, passWord);
+				}
 				
 //				Validate the input Username and Password
 				if(strUserInfo.equals("")) {
 //					if the input UserName or Password is invalidate.
-					JOptionPane.showMessageDialog(this.getParent(), "User Name or Password is incorrect.");
+					JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG001);
 					jtf_UserName.setText("");
 					jpf_Password.setText("");
 				} else {
@@ -247,17 +254,47 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 			} catch (BadLocationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR001_SIGNUP)) {
-//			Button Sign in is clicked, the window browsers to Register Window
+//			Button "Sign up" is clicked, the window browsers to Register Window
 			this.dispose();
 			//System.out.println("Go to Register!");
 			new RegisterWindow();
 		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR001_DELETE)) {
-//			Button Delete is clicked, action of deleting currently input user is executed.
-//			Call Function <deleteExistingUser>
+//			Button "Delete" is clicked, action of deleting currently input user is executed.
+//			Call Function <deleteExistingUser(String UserName, String Password)>
+			int iResult = 0;
+			try {
+				if(passDoc.getLength() > 5 && passDoc.getLength() < 17) {
+					String passWord = MD5.encrypt(passDoc.getText(0, passDoc.getLength()));
+					iResult = DataHandle.deleteExistingUser(userName, passWord);
+					
+					if (iResult == 99) {
+						//User doesn't exist
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG002);
+						jpf_Password.setText("");
+					} else if (iResult == 50) {
+						//User has error
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG003);
+						jpf_Password.setText("");
+					} else if (iResult == 0) {
+						//Deleting failed
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG004);
+						jpf_Password.setText("");
+					} else {
+						//Successful deleted
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG005);
+						jtf_UserName.setText("");
+						jpf_Password.setText("");
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR001_FORGET)) {
-//			Button Forget is clicked, which indicates that the user forgets his/her password, browse to password reset window.
+//			Button "Forget" is clicked, which indicates that the user forgets his/her password, browse to password reset window.
 		}
 	}
 }
