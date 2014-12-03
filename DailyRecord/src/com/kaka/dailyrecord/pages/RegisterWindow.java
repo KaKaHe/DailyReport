@@ -4,7 +4,9 @@
 package com.kaka.dailyrecord.pages;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -73,7 +75,11 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	@Override
 	public void windowActivated(WindowEvent arg0) {
 		// TODO Auto-generated method stub
-
+//		Set the initial size of login window;
+		this.setSize(new Dimension(800,600));
+		Dimension d_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//		Set the window's location related to the screen size;
+		this.setLocation(d_screenSize.width/2 - 450, d_screenSize.height/2 - 350);
 	}
 
 	/* (non-Javadoc)
