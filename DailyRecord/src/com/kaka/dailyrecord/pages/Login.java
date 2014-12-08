@@ -137,6 +137,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 //		To get back the forgotten password;
 		JButton jb_ForgetPW = new JButton(CommandList.DR001_FORGET);
 		jb_ForgetPW.setFont(new Font("TimesRoman", Font.BOLD, 14));
+		jb_ForgetPW.addActionListener(this);
 		jp_Password.add(jb_ForgetPW);
 		jp_Password.add(new Label());
 		
@@ -226,7 +227,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 //			String userName = jtf_UserName.getText();
 //			String strUserInfo = "";
 			try {
-//				String passWord = MD5.encrypt(jpf_Password.getDocument().getText(0, 4));
+//				String test = MD5.encrypt(jpf_Password.getDocument().getText(0, passDoc.getLength()));
 //				String passWord = "";
 //				Document passDoc = jpf_Password.getDocument();
 //				passDoc.getLength();
@@ -294,7 +295,11 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 				e.printStackTrace();
 			}
 		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR001_FORGET)) {
-//			Button "Forget" is clicked, which indicates that the user forgets his/her password, browse to password reset window.
+//			Button "Forget?" is clicked, which indicates that the user forgets his/her password.
+//			A pop-up window would be shown above the Login window.
+			String strUser = JOptionPane.showInputDialog(this, "Please input your UserName: ", "Forget Password", JOptionPane.PLAIN_MESSAGE, null, null, null).toString();
+			Object[] objResult = DataHandle.getData("register", new String[] {"SecurityQ"}, new String[] {"UserName"}, new String[] {strUser});
+			
 		}
 	}
 }

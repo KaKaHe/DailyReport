@@ -9,13 +9,15 @@ package com.kaka.common;
  */
 public class DataHandle {
 /******Global Variables Declaration***************************************************************************/
-	 private static String strActiveStatus = "Status=\"A\"";
-	 private static String strInactiveStatus = "Status=\"I\"";
-	 private static String strErrorStatus = "Status=\"E\"";
-	 private static String strFile_User = "register";
+	private static String strActiveStatus = "Status=\"A\"";
+	private static String strInactiveStatus = "Status=\"I\"";
+	private static String strErrorStatus = "Status=\"E\"";
+	private static String strFile_User = "register";
+	private static String strLineSeparator = "line.separator";
 /************************************************************************************************************/
 
 	public static String validatePassword(String UserName, String Password) {
+		//Validate the login username and password, if succeesed, return all user information
 		String strList = FileHandle.readDataFile(strFile_User);
 		
 		strList = strList.replace("<DairyRecord>", "");
@@ -61,7 +63,7 @@ public class DataHandle {
 		 */
 		int iRet = 0;
 		
-		String strList = FileHandle.readDataFile("register");
+		String strList = FileHandle.readDataFile(strFile_User);
 //		String strCurrStatus = "Status=\"A\"";
 //		String strNewStatus = "Status=\"I\"";
 //		String strErrStatus = "Status=\"E\"";
@@ -73,7 +75,9 @@ public class DataHandle {
 		StringBuilder sbUpdated = new StringBuilder();
 		
 		sbUpdated.append("<DairyRecord>");
-		sbUpdated.append(System.getProperty("line.separator"));
+		sbUpdated.append(System.getProperty(strLineSeparator));
+		sbUpdated.append(strList.substring(0, strList.indexOf("<Register>")));
+		sbUpdated.append(System.getProperty(strLineSeparator));
 		
 		while(!strList.isEmpty()) {
 			int start = strList.indexOf("<Register>") + 10;
@@ -99,11 +103,11 @@ public class DataHandle {
 			//Otherwise, just append the record for preparing write back.
 			singleRecord = "<Register>" + singleRecord + "</Register>";
 			sbUpdated.append(singleRecord);
-			sbUpdated.append(System.getProperty("line.separator"));
+			sbUpdated.append(System.getProperty(strLineSeparator));
 			
 			if(iRet != 0) {
 				sbUpdated.append(strList);
-				sbUpdated.append(System.getProperty("line.separator"));
+				sbUpdated.append(System.getProperty(strLineSeparator));
 				break;
 			}
 		}
@@ -118,7 +122,17 @@ public class DataHandle {
 			}
 		}
 
-		
 		return iRet; //0 means fail to delete the user.
+	}
+
+	public static Object[] getData(String tblName, String[] outVal, String[] condField, String[] condValue) {
+		String strList = FileHandle.readDataFile(tblName);
+		
+		strList = strList.replace("<DairyRecord>", "");
+		strList = strList.replace("</DairyRecord>", "");
+		
+		String[] strLine = strList.split(System.getProperty(strLineSeparator));
+		
+		return null;
 	}
 }
