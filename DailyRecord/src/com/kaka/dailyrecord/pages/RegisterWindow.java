@@ -15,9 +15,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 
@@ -52,12 +50,16 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		JPanel jp_Credential = createCredentialPanel();
 		JPanel jp_Security = createSecurityPanel();
 		JPanel jp_Personal = createPersonalPanel();
-		
+
+		this.add(jp_Personal, BorderLayout.CENTER);
 		this.add(jp_Credential, BorderLayout.CENTER);
 		this.add(jp_Security, BorderLayout.CENTER);
-		this.add(jp_Personal, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Create the Credential Information part in Register Window
+	 * @return	JPanel, which includes fields for UserName, Password, Confirm PWD, and an instruction label for password.
+	 */
 	private JPanel createCredentialPanel() {
 		JPanel jp_Credential = new JPanel(new GridLayout(4, 4, 0, 30));
 		Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
@@ -67,6 +69,10 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		return jp_Credential;
 	}
 	
+	/**
+	 * Create the Security Information part in Register Window
+	 * @return	JPanel, which includes fields for Security Question and Answer.
+	 */
 	private JPanel createSecurityPanel() {
 		JPanel jp_Security = new JPanel(new GridBagLayout());
 		Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
@@ -76,16 +82,33 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		return jp_Security;
 	}
 	
+	/**
+	 * Create the Personal Information part in Register Window.
+	 * @return JPanel, which includes fields for FirstName, LastName, Gender, and Age
+	 */
 	private JPanel createPersonalPanel() {
-		JPanel jp_Personal = new JPanel(new GridLayout(4, 4, 0, 30));
+		JPanel jp_Personal = new JPanel(new GridLayout(1, 4, 0, 30));
 		Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
 		jp_Personal.setBorder(BorderFactory.createTitledBorder(bRegister, "Personal"));
 		jp_Personal.setFont(new Font("TimesRoman", Font.BOLD, 14));
 		
+		//First Name
+		//place holder
+		jp_Personal.add(new JLabel());
+		//label
 		JLabel jl_FirstName = new JLabel(CommandList.DR002_FIRSTNAME);
-		JLabel jl_LastName = new JLabel(CommandList.DR002_LASTNAME);
-		
 		jp_Personal.add(jl_FirstName);
+		//input field
+		JTextField jtf_FirstName = new JTextField();
+		jp_Personal.add(jtf_FirstName);
+		//place holder
+		jp_Personal.add(new JLabel());
+		//Last Name
+		JLabel jl_LastName = new JLabel(CommandList.DR002_LASTNAME);
+		//Gender
+		JLabel jl_Gender = new JLabel(CommandList.DR002_GENDER);
+		//Age
+		JLabel jl_Age = new JLabel(CommandList.DR002_AGE);
 		
 		return jp_Personal;
 	}

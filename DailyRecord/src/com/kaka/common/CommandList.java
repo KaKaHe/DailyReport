@@ -12,23 +12,23 @@ public final class CommandList {
 	public static final String TOTAL_TITLE = "Daily Record";
 /***Label area:********************************************************************************/
 //	Login window
-	public static final String DR001_USERNAME = "User Name:";
-	public static final String DR001_PASSWORD = "Password:";
+	public static final String DR001_USERNAME = "User Name ";
+	public static final String DR001_PASSWORD = "Password ";
 	
 //	Register window
-	public static final String DR002_USERNAME = "UserName";
-	public static final String DR002_PASSWORD = "Password";
-	public static final String DR002_CONFIRMPASSWORD = "Confirm";
+	public static final String DR002_USERNAME = "UserName ";
+	public static final String DR002_PASSWORD = "Password ";
+	public static final String DR002_CONFIRMPASSWORD = "Confirm ";
 	public static final String DR002_PASSWORDINFO = "";
-	public static final String DR002_SECURITY_QUESTION = "Security Question";
-	public static final String DR002_SECURITY_ANSWER = "Security Answer";
-	public static final String DR002_FIRSTNAME = "First Name:";
-	public static final String DR002_LASTNAME = "Last Name:";
-	public static final String DR002_GENDER = "Gender";
+	public static final String DR002_SECURITY_QUESTION = "Security Question ";
+	public static final String DR002_SECURITY_ANSWER = "Security Answer ";
+	public static final String DR002_FIRSTNAME = "First Name ";
+	public static final String DR002_LASTNAME = "Last Name ";
+	public static final String DR002_GENDER = "Gender ";
 	public static final String DR002_GENDER_MALE = "Male";
 	public static final String DR002_GENDER_FEMALE = "Female";
 	public static final String DR002_GENDER_OTHER = "Other";
-	public static final String DR002_AGE = "Age";
+	public static final String DR002_AGE = "Age ";
 	
 //	Account Summary
 /**********************************************************************************************/
