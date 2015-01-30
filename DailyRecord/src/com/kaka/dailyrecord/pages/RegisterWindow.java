@@ -87,7 +87,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 * @return JPanel, which includes fields for FirstName, LastName, Gender, and Age
 	 */
 	private JPanel createPersonalPanel() {
-		JPanel jp_Personal = new JPanel(new GridLayout(1, 4, 0, 30));
+		JPanel jp_Personal = new JPanel(new GridLayout(4, 4, 0, 30));
 		Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
 		jp_Personal.setBorder(BorderFactory.createTitledBorder(bRegister, "Personal"));
 		jp_Personal.setFont(new Font("TimesRoman", Font.BOLD, 14));
@@ -103,12 +103,41 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jtf_FirstName);
 		//place holder
 		jp_Personal.add(new JLabel());
+		
 		//Last Name
+		//place holder
+		jp_Personal.add(new JLabel());
+		//label
 		JLabel jl_LastName = new JLabel(CommandList.DR002_LASTNAME);
+		jp_Personal.add(jl_LastName);
+		//input field
+		JTextField jtf_LastName = new JTextField();
+		jp_Personal.add(jtf_LastName);
+		//place holder
+		jp_Personal.add(new JLabel());
+		
 		//Gender
+		//place holder
+		jp_Personal.add(new JLabel());
+		//label
 		JLabel jl_Gender = new JLabel(CommandList.DR002_GENDER);
+		jp_Personal.add(jl_Gender);
+		//selectbox
+		jp_Personal.add(new JLabel("For select gender."));
+		//placeholder
+		jp_Personal.add(new JLabel());
+		
 		//Age
+		//placeholder
+		jp_Personal.add(new JLabel());
+		//label
 		JLabel jl_Age = new JLabel(CommandList.DR002_AGE);
+		jp_Personal.add(jl_Age);
+		//input field
+		JTextField jtf_Age = new JTextField();
+		jp_Personal.add(jtf_Age);
+		//placeholder
+		jp_Personal.add(new JLabel());
 		
 		return jp_Personal;
 	}
