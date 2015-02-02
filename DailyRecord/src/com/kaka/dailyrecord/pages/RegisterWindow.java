@@ -14,12 +14,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.*;
-import javax.swing.WindowConstants;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
 
 import com.kaka.common.CommandList;
+import com.kaka.common.UI;
 
 /**
  * @author h_jia11
@@ -31,6 +32,12 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 * 
 	 */
 	private static final long serialVersionUID = -9198552551600520655L;
+	
+	/********Common Variables in this Form********************************************************/
+	Font fTitle = new Font("TimesRoman", Font.BOLD, 18);
+	Font fUsual = new Font("TimesRoman", Font.BOLD, 16);
+	Border bRegister = BorderFactory.createLineBorder(Color.GRAY); 
+	/*********************************************************************************************/
 	
 	RegisterWindow() {
 		super();
@@ -50,6 +57,9 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		JPanel jp_Credential = createCredentialPanel();
 		JPanel jp_Security = createSecurityPanel();
 		JPanel jp_Personal = createPersonalPanel();
+		
+		//Set Global Font setting
+		//UI.setUIFont(new FontUIResource(new Font("TimesRoman", Font.BOLD, 18)));
 
 		this.add(jp_Personal, BorderLayout.CENTER);
 		this.add(jp_Credential, BorderLayout.CENTER);
@@ -62,7 +72,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 */
 	private JPanel createCredentialPanel() {
 		JPanel jp_Credential = new JPanel(new GridLayout(4, 4, 0, 30));
-		Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
+		//Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
 		jp_Credential.setBorder(BorderFactory.createTitledBorder(bRegister, "Credential"));
 		jp_Credential.setFont(new Font("TimesRoman", Font.BOLD, 14));
 		
@@ -75,8 +85,8 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 */
 	private JPanel createSecurityPanel() {
 		JPanel jp_Security = new JPanel(new GridBagLayout());
-		Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
-		jp_Security.setBorder(BorderFactory.createTitledBorder(bRegister, "Credential"));
+		//Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
+		jp_Security.setBorder(BorderFactory.createTitledBorder(bRegister, "Security"));
 		jp_Security.setFont(new Font("TimesRoman", Font.BOLD, 14));
 		
 		return jp_Security;
@@ -87,10 +97,16 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 * @return JPanel, which includes fields for FirstName, LastName, Gender, and Age
 	 */
 	private JPanel createPersonalPanel() {
-		JPanel jp_Personal = new JPanel(new GridLayout(4, 4, 0, 30));
-		Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
-		jp_Personal.setBorder(BorderFactory.createTitledBorder(bRegister, "Personal"));
-		jp_Personal.setFont(new Font("TimesRoman", Font.BOLD, 14));
+		JPanel jp_Personal = new JPanel(new GridLayout(4, 4, 0, 10));
+		//Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
+		//jp_Personal.setBorder(BorderFactory.createTitledBorder(bRegister, "Personal"));
+		jp_Personal.setBorder(BorderFactory.createTitledBorder(bRegister, 
+																"Personal", 
+																TitledBorder.DEFAULT_JUSTIFICATION, 
+																TitledBorder.DEFAULT_POSITION, 
+																fTitle)
+								);
+		//jp_Personal.setFont(new Font("TimesRoman", Font.BOLD, 18));
 		
 		//First Name
 		//place holder
@@ -123,7 +139,11 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		JLabel jl_Gender = new JLabel(CommandList.DR002_GENDER);
 		jp_Personal.add(jl_Gender);
 		//selectbox
-		jp_Personal.add(new JLabel("For select gender."));
+		//jp_Personal.add(new JLabel("For select gender."));	//placeholder, need to be removed later.
+		
+		String[] strGender = new String[] { CommandList.DR002_GENDER_FEMALE, CommandList.DR002_GENDER_MALE, CommandList.DR002_GENDER_OTHER };
+		JComboBox<String> jcb_Gender = new JComboBox<String>(strGender);
+		jp_Personal.add(jcb_Gender);
 		//placeholder
 		jp_Personal.add(new JLabel());
 		
@@ -138,6 +158,10 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jtf_Age);
 		//placeholder
 		jp_Personal.add(new JLabel());
+		
+		//Setup Font
+		//UI.setupFont(jp_Personal, new Font("TimesRoman", Font.BOLD, 16));
+		UI.setupFont(jp_Personal, fUsual);
 		
 		return jp_Personal;
 	}

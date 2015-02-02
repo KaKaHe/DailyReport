@@ -91,11 +91,12 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 //		UserName part:
 		JPanel jp_UserName = new JPanel(new GridLayout(1, 5, 10, 100));
 //		jp_UserName.setBorder(new LineBorder(new Color(200,200,200), 3));
+//		jp_UserName.setFont(new Font("TimesRoman", Font.BOLD, 14));
 		jp_UserName.add(new Label());
 //		Tag label
 		JLabel jl_UserName = new JLabel(CommandList.DR001_USERNAME);
 //		jl_UserName.setBorder(new LineBorder(new Color(200,200,200), 3));
-		jl_UserName.setFont(new Font("TimesRoman",Font.BOLD,14));
+		jl_UserName.setFont(new Font("TimesRoman",Font.BOLD, 14));
 		jl_UserName.setHorizontalAlignment(SwingConstants.CENTER);
 		jl_UserName.setHorizontalTextPosition(SwingConstants.CENTER);
 		jp_UserName.add(jl_UserName);
