@@ -19,7 +19,7 @@ public final class CommandList {
 	public static final String DR002_USERNAME = "UserName ";
 	public static final String DR002_PASSWORD = "Password ";
 	public static final String DR002_CONFIRMPASSWORD = "Confirm ";
-	public static final String DR002_PASSWORDINFO = "";
+	public static final String DR002_PASSWORDINFO = "8 digits Minimum";
 	public static final String DR002_SECURITY_QUESTION = "Security Question ";
 	public static final String DR002_SECURITY_ANSWER = "Security Answer ";
 	public static final String DR002_FIRSTNAME = "First Name ";
