@@ -152,6 +152,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 	private JPanel createControlPanel() {
 		JPanel jp_Control = new JPanel(new GridLayout(1, 4, 15, 100));
 		
+		//placeholder
 		jp_Control.add(new JLabel());
 		//Login Button
 		JButton jb_Login = new JButton(CommandList.DR001_SIGNIN);
@@ -163,6 +164,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 		jb_Create.setFont(new Font("TimesRoman", Font.BOLD, 14));
 		jb_Create.addActionListener(this);
 		jp_Control.add(jb_Create);
+		//placeholder
 		jp_Control.add(new JLabel());
 		
 		return jp_Control;

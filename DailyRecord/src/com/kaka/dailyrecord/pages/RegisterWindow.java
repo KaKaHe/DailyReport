@@ -43,7 +43,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		super();
 		setTitle(CommandList.TOTAL_TITLE);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(3, 1, 0, 0));
+        setLayout(new GridLayout(4, 1, 0, 0));
         
 		initialFrame();
         
@@ -56,35 +56,36 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		// TODO Auto-generated method stub
 		JPanel jp_Personal = createPersonalPanel();
 		JPanel jp_Credential = createCredentialPanel();
-		JPanel jp_SecurityControl = createSecurityControlPanel();
+		JPanel jp_Security = createSecurityPanel();
+		JPanel jp_Control = createControlPanel();
 		
 		//Set Global Font setting
 		//UI.setUIFont(new FontUIResource(new Font("TimesRoman", Font.BOLD, 18)));
 
-		this.setLayout(new GridLayout(3,1));
+		//this.setLayout(new GridLayout(3,1));
 		
 		this.add(jp_Personal);
 		this.add(jp_Credential);
-		this.add(jp_SecurityControl);
+		this.add(jp_Security);
+		this.add(jp_Control);
 	}
 	
 	/**
 	 * Create the Personal Information part in Register Window.
-	 * @return JPanel, which includes fields for FirstName, LastName, Gender, and Age
+	 * @return JPanel, which includes fields for FirstName, LastName, Gender, and Age.
 	 */
 	private JPanel createPersonalPanel() {
 		JPanel jp_Personal = new JPanel(new GridLayout(4, 4, 0, 10));
-		//Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
-		//jp_Personal.setBorder(BorderFactory.createTitledBorder(bRegister, "Personal"));
 		jp_Personal.setBorder(BorderFactory.createTitledBorder(bRegister, 
 																"Personal", 
 																TitledBorder.DEFAULT_JUSTIFICATION, 
 																TitledBorder.DEFAULT_POSITION, 
 																fTitle)
 							  );
-		//jp_Personal.setFont(new Font("TimesRoman", Font.BOLD, 18));
 		
 		//First Name
+		//place holder
+		jp_Personal.add(new JLabel());
 		//label
 		JLabel jl_FirstName = new JLabel(CommandList.DR002_FIRSTNAME);
 		jp_Personal.add(jl_FirstName);
@@ -93,10 +94,10 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jtf_FirstName);
 		//place holder
 		jp_Personal.add(new JLabel());
-		//place holder
-		jp_Personal.add(new JLabel());
 		
 		//Last Name
+		//place holder
+		jp_Personal.add(new JLabel());
 		//label
 		JLabel jl_LastName = new JLabel(CommandList.DR002_LASTNAME);
 		jp_Personal.add(jl_LastName);
@@ -105,10 +106,10 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jtf_LastName);
 		//place holder
 		jp_Personal.add(new JLabel());
-		//place holder
-		jp_Personal.add(new JLabel());
 		
 		//Gender
+		//placeholder
+		jp_Personal.add(new JLabel());
 		//label
 		JLabel jl_Gender = new JLabel(CommandList.DR002_GENDER);
 		jp_Personal.add(jl_Gender);
@@ -116,12 +117,12 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		String[] strGender = new String[] { CommandList.DR002_GENDER_FEMALE, CommandList.DR002_GENDER_MALE, CommandList.DR002_GENDER_OTHER };
 		JComboBox<String> jcb_Gender = new JComboBox<String>(strGender);
 		jp_Personal.add(jcb_Gender);
-		//placeholder
-		jp_Personal.add(new JLabel());
 		//place holder
 		jp_Personal.add(new JLabel());
 		
 		//Age
+		//placeholder
+		jp_Personal.add(new JLabel());
 		//label
 		JLabel jl_Age = new JLabel(CommandList.DR002_AGE);
 		jp_Personal.add(jl_Age);
@@ -130,33 +131,29 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jtf_Age);
 		//placeholder
 		jp_Personal.add(new JLabel());
-		//placeholder
-		jp_Personal.add(new JLabel());
 		
 		//Setup Font
-		//UI.setupFont(jp_Personal, new Font("TimesRoman", Font.BOLD, 16));
 		UI.setupFont(jp_Personal, fUsual);
 		
 		return jp_Personal;
 	}
 	
 	/**
-	 * Create the Credential Information part in Register Window
+	 * Create the Credential Information part in Register Window.
 	 * @return	JPanel, which includes fields for UserName, Password, Confirm PWD, and an instruction label for password.
 	 */
 	private JPanel createCredentialPanel() {
 		JPanel jp_Credential = new JPanel(new GridLayout(4, 4, 0, 10));
-		//Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
-		//jp_Credential.setBorder(BorderFactory.createTitledBorder(bRegister, "Credential"));
 		jp_Credential.setBorder(BorderFactory.createTitledBorder(bRegister, 
 																  "Credential", 
 																  TitledBorder.DEFAULT_JUSTIFICATION, 
 																  TitledBorder.DEFAULT_POSITION, 
 																  fTitle)
 								);
-		//jp_Credential.setFont(new Font("TimesRoman", Font.BOLD, 14));
 		
 		//UserName
+		//placeholder
+		jp_Credential.add(new JLabel());
 		//label
 		JLabel jl_UserName = new JLabel(CommandList.DR002_USERNAME);
 		jp_Credential.add(jl_UserName);
@@ -165,22 +162,23 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Credential.add(jtf_UserName);
 		//placeholder
 		jp_Credential.add(new JLabel());
-		//placeholder
-		jp_Credential.add(new JLabel());
 		
 		//Password
+		//placeholder
+		jp_Credential.add(new JLabel());
 		//label
 		JLabel jl_Password = new JLabel(CommandList.DR002_PASSWORD);
 		jp_Credential.add(jl_Password);
 		//inputfield (masked)
 		JPasswordField jpf_Password = new JPasswordField();
 		jp_Credential.add(jpf_Password);
-		//placeholder
-		jp_Credential.add(new JLabel());
-		//placeholder
-		jp_Credential.add(new JLabel());
+		//Instruction
+		JLabel jl_Instruction = new JLabel(CommandList.DR002_PASSWORDINFO);
+		jp_Credential.add(jl_Instruction);
 		
 		//Confrim Password
+		//placeholder
+		jp_Credential.add(new JLabel());
 		//label
 		JLabel jl_Confirm = new JLabel(CommandList.DR002_CONFIRMPASSWORD);
 		jp_Credential.add(jl_Confirm);
@@ -189,14 +187,12 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Credential.add(jpf_Confirm);
 		//placeholder
 		jp_Credential.add(new JLabel());
-		//placeholder
-		jp_Credential.add(new JLabel());
 		
 		//Password Instruction
 		//placeholder
 		jp_Credential.add(new JLabel());
-		//instruction
-		jp_Credential.add(new JLabel(CommandList.DR002_PASSWORDINFO));
+		//placeholder
+		jp_Credential.add(new JLabel());
 		//placeholder
 		jp_Credential.add(new JLabel());
 		//placeholder
@@ -207,55 +203,101 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	}
 	
 	/**
-	 * Create the Security Information part in Register Window and the button panel
-	 * @return	JPanel, which includes fields for Security Question and Answer. It also includes the buttons, SUBMIT, RESET, CANCEL.
+	 * Create the Security Information part in Register Window.
+	 * @return	JPanel, which includes fields for Security Question and Answer.
 	 */
-	private JPanel createSecurityControlPanel() {
-		JPanel jp_Security = new JPanel(new GridLayout(2, 2, 0, 10));
-		//Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
-		//jp_Security.setBorder(BorderFactory.createTitledBorder(bRegister, "Security"));
+	private JPanel createSecurityPanel() {		
+		JPanel jp_Security = new JPanel(new GridLayout(1, 2, 0, 0));
+		JPanel jp_SecurityL = new JPanel(new GridLayout(4, 2, 0, 10));
+		JPanel jp_SecurityT = new JPanel(new GridLayout(4, 1, 0, 10));
 		jp_Security.setBorder(BorderFactory.createTitledBorder(bRegister, 
 																"Security", 
 																TitledBorder.DEFAULT_JUSTIFICATION, 
 																TitledBorder.DEFAULT_POSITION, 
 																fTitle)
-							  );
-		//jp_Security.setFont(new Font("TimesRoman", Font.BOLD, 14));
-		
-//		jp_Security.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-//		
-//		GridBagConstraints c = new GridBagConstraints();
-//		c.fill=GridBagConstraints.BOTH;
-//		c.insets = new Insets(10, 0, 10, 0);
-//		
-//		JLabel jl_Question = new JLabel(CommandList.DR002_SECURITY_QUESTION);
-//		c.gridx = 0;
-//		c.gridy = 0;
-//		jp_Security.add(jl_Question, c);
-//		
-//		JTextField jtf_Question = new JTextField();
-//		c.gridx = 1;
-//		c.gridy = 0;
-//		c.gridwidth = 3;
-//		jp_Security.add(jtf_Question, c);
-//		
-//		JLabel jl_Answer = new JLabel(CommandList.DR002_SECURITY_ANSWER);
-//		c.gridx = 0;
-//		c.gridy = 1;
-//		jp_Security.add(jl_Answer, c);
-//		
-//		JTextField jtf_Answer = new JTextField();
-//		c.gridx = 1;
-//		c.gridy = 1;
-//		c.gridwidth = 3;
-//		c.weightx = 1;
-//		jp_Security.add(jtf_Answer, c);
+								);
 		
 		//Security Question
+		//placeholder
+		jp_SecurityL.add(new JLabel());
+		//label
+		JLabel jl_Question = new JLabel(CommandList.DR002_SECURITY_QUESTION);
+		jp_SecurityL.add(jl_Question);
+		//input field
+		JTextField jtf_Question = new JTextField();
+		jp_SecurityT.add(jtf_Question);
+		
 		//Security Answer
+		//placeholder
+		jp_SecurityL.add(new JLabel());
+		//label
+		JLabel jl_Answer = new JLabel(CommandList.DR002_SECURITY_ANSWER);
+		jp_SecurityL.add(jl_Answer);
+		//input field
+		JTextField jtf_Answer = new JTextField();
+		jp_SecurityT.add(jtf_Answer);
+		
+		//placeholder first row
+		jp_SecurityL.add(new JLabel());
+		jp_SecurityL.add(new JLabel());
+		jp_SecurityT.add(new JLabel());
+		
+		//placeholder second row
+		jp_SecurityL.add(new JLabel());
+		jp_SecurityL.add(new JLabel());
+		jp_SecurityT.add(new JLabel());
+		
+		//Assemble
+		jp_Security.add(jp_SecurityL);
+		jp_Security.add(jp_SecurityT);
 		
 		UI.setupFont(jp_Security, fUsual);
 		return jp_Security;
+	}
+	
+	/**
+	 * Create the control part in Register Window.
+	 * @return	JPanel, which includes 3 buttons, Submit, Reset, and Cancel.
+	 */
+	private JPanel createControlPanel() {
+		JPanel jp_Button = new JPanel(new GridLayout(3, 5, 15, 30));
+		
+		//first row
+		//placeholders
+		jp_Button.add(new JLabel());
+		jp_Button.add(new JLabel());
+		jp_Button.add(new JLabel());
+		jp_Button.add(new JLabel());
+		jp_Button.add(new JLabel());
+		
+		//second row
+		//placeholder
+		jp_Button.add(new JLabel());
+		//Submit
+		JButton jb_Submit = new JButton(CommandList.DR002_SUBMIT);
+		jb_Submit.addActionListener(this);
+		jp_Button.add(jb_Submit);
+		//Reset
+		JButton jb_Reset = new JButton(CommandList.DR002_RESET);
+		jb_Reset.addActionListener(this);
+		jp_Button.add(jb_Reset);
+		//Cancel
+		JButton jb_Cancel = new JButton(CommandList.DR002_CANCEL);
+		jb_Cancel.addActionListener(this);
+		jp_Button.add(jb_Cancel);
+		//placeholder
+		jp_Button.add(new JLabel());
+		
+		//third row
+		//placeholders
+		jp_Button.add(new JLabel());
+		jp_Button.add(new JLabel());
+		jp_Button.add(new JLabel());
+		jp_Button.add(new JLabel());
+		jp_Button.add(new JLabel());
+
+		UI.setupFont(jp_Button, fUsual);
+		return jp_Button;
 	}
 
 	/* (non-Javadoc)
@@ -264,6 +306,11 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+		if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR002_CANCEL)) {
+			this.dispose();
+			Login login = Login.getInstance();
+			login.setVisible(true);
+		}
 
 	}
 
@@ -274,7 +321,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	public void windowActivated(WindowEvent arg0) {
 		// TODO Auto-generated method stub
 //		Set the initial size of login window;
-		this.setSize(new Dimension(800,600));
+		this.setSize(new Dimension(800,800));
 		Dimension d_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //		Set the window's location related to the screen size;
 		this.setLocation(d_screenSize.width/2 - 450, d_screenSize.height/2 - 350);
