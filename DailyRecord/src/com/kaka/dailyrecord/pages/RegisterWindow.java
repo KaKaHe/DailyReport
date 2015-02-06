@@ -21,6 +21,7 @@ import javax.swing.plaf.FontUIResource;
 
 import com.kaka.common.CommandList;
 import com.kaka.common.UI;
+import com.sun.org.apache.xml.internal.dtm.Axis;
 
 /**
  * @author h_jia11
@@ -91,6 +92,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jl_FirstName);
 		//input field
 		JTextField jtf_FirstName = new JTextField();
+		jtf_FirstName.setName("FirstName");
 		jp_Personal.add(jtf_FirstName);
 		//place holder
 		jp_Personal.add(new JLabel());
@@ -103,6 +105,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jl_LastName);
 		//input field
 		JTextField jtf_LastName = new JTextField();
+		jtf_LastName.setName("LastName");
 		jp_Personal.add(jtf_LastName);
 		//place holder
 		jp_Personal.add(new JLabel());
@@ -116,6 +119,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		//selectbox		
 		String[] strGender = new String[] { CommandList.DR002_GENDER_FEMALE, CommandList.DR002_GENDER_MALE, CommandList.DR002_GENDER_OTHER };
 		JComboBox<String> jcb_Gender = new JComboBox<String>(strGender);
+		jcb_Gender.setName("Gender");
 		jp_Personal.add(jcb_Gender);
 		//place holder
 		jp_Personal.add(new JLabel());
@@ -128,6 +132,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jl_Age);
 		//input field
 		JTextField jtf_Age = new JTextField();
+		jtf_Age.setName("Age");
 		jp_Personal.add(jtf_Age);
 		//placeholder
 		jp_Personal.add(new JLabel());
@@ -159,6 +164,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Credential.add(jl_UserName);
 		//input field
 		JTextField jtf_UserName = new JTextField();
+		jtf_UserName.setName("username");
 		jp_Credential.add(jtf_UserName);
 		//placeholder
 		jp_Credential.add(new JLabel());
@@ -171,6 +177,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Credential.add(jl_Password);
 		//inputfield (masked)
 		JPasswordField jpf_Password = new JPasswordField();
+		jpf_Password.setName("password");
 		jp_Credential.add(jpf_Password);
 		//Instruction
 		JLabel jl_Instruction = new JLabel(CommandList.DR002_PASSWORDINFO);
@@ -184,6 +191,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Credential.add(jl_Confirm);
 		//inputfield (masked)
 		JPasswordField jpf_Confirm = new JPasswordField();
+		jpf_Confirm.setName("confirm");
 		jp_Credential.add(jpf_Confirm);
 		//placeholder
 		jp_Credential.add(new JLabel());
@@ -198,6 +206,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		//placeholder
 		jp_Credential.add(new JLabel());
 
+		//Set Font
 		UI.setupFont(jp_Credential, fUsual);
 		return jp_Credential;
 	}
@@ -225,6 +234,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_SecurityL.add(jl_Question);
 		//input field
 		JTextField jtf_Question = new JTextField();
+		jtf_Question.setName("secQuestion");
 		jp_SecurityT.add(jtf_Question);
 		
 		//Security Answer
@@ -235,6 +245,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_SecurityL.add(jl_Answer);
 		//input field
 		JTextField jtf_Answer = new JTextField();
+		jtf_Answer.setName("secAnswer");
 		jp_SecurityT.add(jtf_Answer);
 		
 		//placeholder first row
@@ -251,6 +262,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Security.add(jp_SecurityL);
 		jp_Security.add(jp_SecurityT);
 		
+		//Set Font
 		UI.setupFont(jp_Security, fUsual);
 		return jp_Security;
 	}
@@ -278,9 +290,10 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jb_Submit.addActionListener(this);
 		jp_Button.add(jb_Submit);
 		//Reset
-		JButton jb_Reset = new JButton(CommandList.DR002_RESET);
-		jb_Reset.addActionListener(this);
-		jp_Button.add(jb_Reset);
+//		JButton jb_Reset = new JButton(CommandList.DR002_RESET);
+//		jb_Reset.addActionListener(this);
+//		jp_Button.add(jb_Reset);
+		jp_Button.add(new JLabel());
 		//Cancel
 		JButton jb_Cancel = new JButton(CommandList.DR002_CANCEL);
 		jb_Cancel.addActionListener(this);
@@ -306,7 +319,22 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR002_CANCEL)) {
+		if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR002_SUBMIT)) {
+			
+			Object a = ((JButton)arg0.getSource()).getParent().getParent();
+			a.notify();
+			
+			if(a instanceof JPanel) {
+				Component c = ((JPanel)a).getComponent(0);
+			}
+			//After clicking on "Submit" Button
+			//1. Validate the input fields
+			//2. Get all values after validation
+			//3. Update data file
+			
+//		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR002_RESET)) {
+//			
+		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR002_CANCEL)) {
 			this.dispose();
 			Login login = Login.getInstance();
 			login.setVisible(true);
@@ -360,7 +388,11 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	@Override
 	public void windowOpened(WindowEvent arg0) {
 		// TODO Auto-generated method stub
-
+		
+	}
+	
+	private void validateInput() {
+		
 	}
 
 }
