@@ -243,7 +243,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 //				Validate the input Username and Password
 				if(strUserInfo.equals("")) {
 //					if the input UserName or Password is invalidate.
-					JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG001);
+					JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG001);
 					jtf_UserName.setText("");
 					jpf_Password.setText("");
 				} else {
@@ -277,19 +277,19 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 					
 					if (iResult == 99) {
 						//User doesn't exist
-						JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG002);
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG002);
 						jpf_Password.setText("");
 					} else if (iResult == 50) {
 						//User has error
-						JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG003);
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG003);
 						jpf_Password.setText("");
 					} else if (iResult == 0) {
 						//Deleting failed
-						JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG004);
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG004);
 						jpf_Password.setText("");
 					} else {
 						//Successful deleted
-						JOptionPane.showMessageDialog(this.getParent(), CommandList.MSG005);
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG005);
 						jtf_UserName.setText("");
 						jpf_Password.setText("");
 					}

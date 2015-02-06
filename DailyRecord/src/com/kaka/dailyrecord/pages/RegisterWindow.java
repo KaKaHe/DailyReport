@@ -3,11 +3,6 @@
  */
 package com.kaka.dailyrecord.pages;
 
-//import java.awt.BorderLayout;
-//import java.awt.Color;
-//import java.awt.Dimension;
-//import java.awt.GridLayout;
-//import java.awt.Toolkit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,11 +12,11 @@ import java.awt.event.WindowListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.FontUIResource;
+//import javax.swing.plaf.FontUIResource;
 
 import com.kaka.common.CommandList;
 import com.kaka.common.UI;
-import com.sun.org.apache.xml.internal.dtm.Axis;
+//import com.sun.org.apache.xml.internal.dtm.Axis;
 
 /**
  * @author h_jia11
@@ -53,6 +48,9 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
         setVisible(true);
 	}
 
+	/**
+	 * Initialize the main frame
+	 */
 	private void initialFrame() {
 		// TODO Auto-generated method stub
 		JPanel jp_Personal = createPersonalPanel();
@@ -322,15 +320,22 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR002_SUBMIT)) {
 			
 			Object a = ((JButton)arg0.getSource()).getParent().getParent();
-			a.notify();
 			
 			if(a instanceof JPanel) {
 				Component c = ((JPanel)a).getComponent(0);
 			}
 			//After clicking on "Submit" Button
-			//1. Validate the input fields
-			//2. Get all values after validation
-			//3. Update data file
+			/**********1. Validate the input fields****************************/
+			//Get the JPanel object which is including all components
+			Object jcRoot = ((JButton)arg0.getSource()).getParent().getParent();
+			//Pass the root container to validation function
+			Boolean valiResult = validateInput(jcRoot);
+
+			/**********2. Get all values after validation**********************/
+			if(valiResult) {
+				
+			}
+			/**********3. Update data file*************************************/
 			
 //		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR002_RESET)) {
 //			
@@ -391,8 +396,10 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		
 	}
 	
-	private void validateInput() {
+	private Boolean validateInput(Object container) {
 		
+		
+		return false;
 	}
 
 }

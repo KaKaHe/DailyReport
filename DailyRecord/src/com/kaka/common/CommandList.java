@@ -49,10 +49,10 @@ public final class CommandList {
 /*********************************************************************************************/
 	
 /***Error Message:****************************************************************************/
-	public static final String MSG001 = "User Name or Password is incorrect.";
-	public static final String MSG002 = "The user is not existed.";
-	public static final String MSG003 = "There is error about this account, please contact administrator.";
-	public static final String MSG004 = "Deleting user failed.";
-	public static final String MSG005 = "User has been deleted.";
+	public static final String DR001_MSG001 = "User Name or Password is incorrect.";
+	public static final String DR001_MSG002 = "The user is not existed.";
+	public static final String DR001_MSG003 = "There is error about this account, please contact administrator.";
+	public static final String DR001_MSG004 = "Deleting user failed.";
+	public static final String DR001_MSG005 = "User has been deleted.";
 /*********************************************************************************************/
 }
