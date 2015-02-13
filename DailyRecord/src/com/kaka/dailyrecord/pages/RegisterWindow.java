@@ -75,6 +75,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 */
 	private JPanel createPersonalPanel() {
 		JPanel jp_Personal = new JPanel(new GridLayout(4, 4, 0, 10));
+		jp_Personal.setName("Personal");
 		jp_Personal.setBorder(BorderFactory.createTitledBorder(bRegister, 
 																"Personal", 
 																TitledBorder.DEFAULT_JUSTIFICATION, 
@@ -147,6 +148,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 */
 	private JPanel createCredentialPanel() {
 		JPanel jp_Credential = new JPanel(new GridLayout(4, 4, 0, 10));
+		jp_Credential.setName("Credential");
 		jp_Credential.setBorder(BorderFactory.createTitledBorder(bRegister, 
 																  "Credential", 
 																  TitledBorder.DEFAULT_JUSTIFICATION, 
@@ -217,6 +219,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		JPanel jp_Security = new JPanel(new GridLayout(1, 2, 0, 0));
 		JPanel jp_SecurityL = new JPanel(new GridLayout(4, 2, 0, 10));
 		JPanel jp_SecurityT = new JPanel(new GridLayout(4, 1, 0, 10));
+		jp_Security.setName("Security");
 		jp_Security.setBorder(BorderFactory.createTitledBorder(bRegister, 
 																"Security", 
 																TitledBorder.DEFAULT_JUSTIFICATION, 
@@ -271,6 +274,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 */
 	private JPanel createControlPanel() {
 		JPanel jp_Button = new JPanel(new GridLayout(3, 5, 15, 30));
+		jp_Button.setName("Control");
 		
 		//first row
 		//placeholders
@@ -319,11 +323,11 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		// TODO Auto-generated method stub
 		if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR002_SUBMIT)) {
 			
-			Object a = ((JButton)arg0.getSource()).getParent().getParent();
-			
-			if(a instanceof JPanel) {
-				Component c = ((JPanel)a).getComponent(0);
-			}
+//			Object a = ((JButton)arg0.getSource()).getParent().getParent();
+//			
+//			if(a instanceof JPanel) {
+//				Component c = ((JPanel)a).getComponent(0);
+//			}
 			//After clicking on "Submit" Button
 			/**********1. Validate the input fields****************************/
 			//Get the JPanel object which is including all components
@@ -398,6 +402,34 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	
 	private Boolean validateInput(Object container) {
 		
+		if(container instanceof JPanel) {
+			Component[] root = ((JPanel) container).getComponents();
+			Component[] ends;
+			JPanel jpChild;
+			
+			for(int ite = 0; ite < root.length; ite ++) {
+				if(root[ite] instanceof JPanel) {
+					jpChild = (JPanel)root[ite];
+					if(jpChild.getName().equals("Control")) {
+						continue;
+					} else if(jpChild.getName().equals("Personal")) {
+						ends = jpChild.getComponents();
+						
+						for(int it = 0; it < ends.length; it ++) {
+							if(ends[it] instanceof JTextField) {
+								
+							} else if (ends[it] instanceof JComboBox) {
+								
+							}
+						}
+					} else if(jpChild.getName().equals("Credential")) {
+						ends = jpChild.getComponents();
+					} else if(jpChild.getName().equals("Security")) {
+						ends = jpChild.getComponents();
+					}
+				}
+			}
+		}
 		
 		return false;
 	}
