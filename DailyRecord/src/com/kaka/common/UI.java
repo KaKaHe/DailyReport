@@ -12,7 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 /**
- * @author jiah
+ * @author KaKa
  *
  */
 public class UI {

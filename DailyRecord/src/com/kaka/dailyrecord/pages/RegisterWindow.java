@@ -8,18 +8,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 //import javax.swing.plaf.FontUIResource;
 
+
 import com.kaka.common.CommandList;
 import com.kaka.common.UI;
 //import com.sun.org.apache.xml.internal.dtm.Axis;
 
 /**
- * @author h_jia11
+ * Screen ID: DR002
+ * @author KaKa
  *
  */
 public class RegisterWindow extends JFrame implements WindowListener, ActionListener {
@@ -29,10 +32,11 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 */
 	private static final long serialVersionUID = -9198552551600520655L;
 	
-	/********Common Variables in this Form********************************************************/
+	/********Global Variables in this Form********************************************************/
 	Font fTitle = new Font("TimesRoman", Font.BOLD, 18);
 	Font fUsual = new Font("TimesRoman", Font.BOLD, 16);
-	Border bRegister = BorderFactory.createLineBorder(Color.GRAY); 
+	Border bRegister = BorderFactory.createLineBorder(Color.GRAY);
+	ArrayList<String> arlValues = new ArrayList<String>();
 	/*********************************************************************************************/
 	
 	RegisterWindow() {
@@ -91,7 +95,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jl_FirstName);
 		//input field
 		JTextField jtf_FirstName = new JTextField();
-		jtf_FirstName.setName("FirstName");
+		jtf_FirstName.setName(CommandList.DR002_FIRSTNAME);
 		jp_Personal.add(jtf_FirstName);
 		//place holder
 		jp_Personal.add(new JLabel());
@@ -104,7 +108,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jl_LastName);
 		//input field
 		JTextField jtf_LastName = new JTextField();
-		jtf_LastName.setName("LastName");
+		jtf_LastName.setName(CommandList.DR002_LASTNAME);
 		jp_Personal.add(jtf_LastName);
 		//place holder
 		jp_Personal.add(new JLabel());
@@ -118,7 +122,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		//selectbox		
 		String[] strGender = new String[] { CommandList.DR002_GENDER_FEMALE, CommandList.DR002_GENDER_MALE, CommandList.DR002_GENDER_OTHER };
 		JComboBox<String> jcb_Gender = new JComboBox<String>(strGender);
-		jcb_Gender.setName("Gender");
+		jcb_Gender.setName(CommandList.DR002_GENDER);
 		jp_Personal.add(jcb_Gender);
 		//place holder
 		jp_Personal.add(new JLabel());
@@ -131,7 +135,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Personal.add(jl_Age);
 		//input field
 		JTextField jtf_Age = new JTextField();
-		jtf_Age.setName("Age");
+		jtf_Age.setName(CommandList.DR002_AGE);
 		jp_Personal.add(jtf_Age);
 		//placeholder
 		jp_Personal.add(new JLabel());
@@ -164,7 +168,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Credential.add(jl_UserName);
 		//input field
 		JTextField jtf_UserName = new JTextField();
-		jtf_UserName.setName("username");
+		jtf_UserName.setName(CommandList.DR002_USERNAME);
 		jp_Credential.add(jtf_UserName);
 		//placeholder
 		jp_Credential.add(new JLabel());
@@ -177,7 +181,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Credential.add(jl_Password);
 		//inputfield (masked)
 		JPasswordField jpf_Password = new JPasswordField();
-		jpf_Password.setName("password");
+		jpf_Password.setName(CommandList.DR002_PASSWORD);
 		jp_Credential.add(jpf_Password);
 		//Instruction
 		JLabel jl_Instruction = new JLabel(CommandList.DR002_PASSWORDINFO);
@@ -191,7 +195,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_Credential.add(jl_Confirm);
 		//inputfield (masked)
 		JPasswordField jpf_Confirm = new JPasswordField();
-		jpf_Confirm.setName("confirm");
+		jpf_Confirm.setName(CommandList.DR002_CONFIRMPASSWORD);
 		jp_Credential.add(jpf_Confirm);
 		//placeholder
 		jp_Credential.add(new JLabel());
@@ -361,7 +365,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		this.setSize(new Dimension(800,800));
 		Dimension d_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //		Set the window's location related to the screen size;
-		this.setLocation(d_screenSize.width/2 - 450, d_screenSize.height/2 - 350);
+		this.setLocation(d_screenSize.width/2 - 450, d_screenSize.height/2 - 450);
 	}
 
 	@Override
@@ -400,12 +404,19 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		
 	}
 	
+	/**
+	 * @param container
+	 * @return
+	 */
 	private Boolean validateInput(Object container) {
 		
 		if(container instanceof JPanel) {
 			Component[] root = ((JPanel) container).getComponents();
 			Component[] ends;
 			JPanel jpChild;
+			String strValue;
+			Boolean bResult = true;
+			arlValues.clear();
 			
 			for(int ite = 0; ite < root.length; ite ++) {
 				if(root[ite] instanceof JPanel) {
@@ -417,13 +428,59 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 						
 						for(int it = 0; it < ends.length; it ++) {
 							if(ends[it] instanceof JTextField) {
-								
+								switch(ends[it].getName()) {
+									case CommandList.DR002_FIRSTNAME:
+										strValue = ((JTextField)ends[it]).getText();
+										if(!strValue.matches("^[a-zA-z]+([ '-][a-zA-Z]+)*$")) {
+											bResult &= false;
+											strValue = "Error";
+											ends[it].setBackground(Color.YELLOW);
+										}
+										arlValues.add(0, strValue);
+										break;
+									case CommandList.DR002_LASTNAME:
+										strValue = ((JTextField)ends[it]).getText();
+										if(!strValue.matches("^[a-zA-z]+([ '-][a-zA-Z]+)*$")) {
+											bResult &= false;
+											strValue = "Error";
+											ends[it].setBackground(Color.YELLOW);
+										}
+										arlValues.add(1, strValue);
+										break;
+									case CommandList.DR002_AGE:
+										strValue = ((JTextField)ends[it]).getText();
+										if(!strValue.matches("^[1-9][0-9]?$")) {
+											bResult &= false;
+											strValue = "Error";
+											ends[it].setBackground(Color.YELLOW);
+										}
+										arlValues.add(3, strValue);
+										break;
+									default:
+								}
 							} else if (ends[it] instanceof JComboBox) {
-								
+								if(ends[it].getName().equals(CommandList.DR002_GENDER)) {
+									strValue = ((JComboBox<?>)ends[it]).getSelectedItem().toString();
+									arlValues.add(2, strValue);
+								}
 							}
 						}
 					} else if(jpChild.getName().equals("Credential")) {
 						ends = jpChild.getComponents();
+						
+						for(int it = 0; it < ends.length; it ++) {
+							if(ends[it] instanceof JTextField) {
+								switch(ends[it].getName()) {
+									case CommandList.DR002_USERNAME:
+										break;
+									case CommandList.DR002_PASSWORD:
+										break;
+									case CommandList.DR002_CONFIRMPASSWORD:
+										break;
+									default:
+								}
+							}
+						}
 					} else if(jpChild.getName().equals("Security")) {
 						ends = jpChild.getComponents();
 					}
