@@ -239,7 +239,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_SecurityL.add(jl_Question);
 		//input field
 		JTextField jtf_Question = new JTextField();
-		jtf_Question.setName("secQuestion");
+		jtf_Question.setName(CommandList.DR002_SECURITY_QUESTION);
 		jp_SecurityT.add(jtf_Question);
 		
 		//Security Answer
@@ -250,7 +250,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		jp_SecurityL.add(jl_Answer);
 		//input field
 		JTextField jtf_Answer = new JTextField();
-		jtf_Answer.setName("secAnswer");
+		jtf_Answer.setName(CommandList.DR002_SECURITY_ANSWER);
 		jp_SecurityT.add(jtf_Answer);
 		
 		//placeholder first row
@@ -483,6 +483,18 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 						}
 					} else if(jpChild.getName().equals("Security")) {
 						ends = jpChild.getComponents();
+						
+						for(int it = 0; it < ends.length; it ++) {
+							if(ends[it] instanceof JTextField) {
+								switch(ends[it].getName()) {
+									case CommandList.DR002_SECURITY_QUESTION:
+										break;
+									case CommandList.DR002_SECURITY_ANSWER:
+										break;
+									default:
+								}
+							}
+						}
 					}
 				}
 			}
