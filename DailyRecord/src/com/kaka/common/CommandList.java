@@ -16,6 +16,10 @@ public final class CommandList {
 	public static final String DR001_PASSWORD = "Password ";
 	
 //	Register window
+	public static final String DR002_PERSONAL_PANEL = "Personal";
+	public static final String DR002_CREDENTIAL_PANEL = "Credential";
+	public static final String DR002_SECURITY_PANEL = "Security";
+	public static final String DR002_CONTROL_PANEL = "Control";
 	public static final String DR002_USERNAME = "UserName ";
 	public static final String DR002_PASSWORD = "Password ";
 	public static final String DR002_CONFIRMPASSWORD = "Confirm ";

@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -16,7 +18,11 @@ import javax.swing.border.TitledBorder;
 //import javax.swing.plaf.FontUIResource;
 
 
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+
 import com.kaka.common.CommandList;
+import com.kaka.common.MD5;
 import com.kaka.common.UI;
 //import com.sun.org.apache.xml.internal.dtm.Axis;
 
@@ -27,9 +33,6 @@ import com.kaka.common.UI;
  */
 public class RegisterWindow extends JFrame implements WindowListener, ActionListener {
 
-/**
-	 * 
-	 */
 	private static final long serialVersionUID = -9198552551600520655L;
 	
 	/********Global Variables in this Form********************************************************/
@@ -81,7 +84,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		JPanel jp_Personal = new JPanel(new GridLayout(4, 4, 0, 10));
 		jp_Personal.setName("Personal");
 		jp_Personal.setBorder(BorderFactory.createTitledBorder(bRegister, 
-																"Personal", 
+																CommandList.DR002_PERSONAL_PANEL, //"Personal", 
 																TitledBorder.DEFAULT_JUSTIFICATION, 
 																TitledBorder.DEFAULT_POSITION, 
 																fTitle)
@@ -154,7 +157,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		JPanel jp_Credential = new JPanel(new GridLayout(4, 4, 0, 10));
 		jp_Credential.setName("Credential");
 		jp_Credential.setBorder(BorderFactory.createTitledBorder(bRegister, 
-																  "Credential", 
+																  CommandList.DR002_CREDENTIAL_PANEL, //"Credential", 
 																  TitledBorder.DEFAULT_JUSTIFICATION, 
 																  TitledBorder.DEFAULT_POSITION, 
 																  fTitle)
@@ -225,7 +228,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		JPanel jp_SecurityT = new JPanel(new GridLayout(4, 1, 0, 10));
 		jp_Security.setName("Security");
 		jp_Security.setBorder(BorderFactory.createTitledBorder(bRegister, 
-																"Security", 
+																CommandList.DR002_SECURITY_PANEL, //"Security", 
 																TitledBorder.DEFAULT_JUSTIFICATION, 
 																TitledBorder.DEFAULT_POSITION, 
 																fTitle)
@@ -278,7 +281,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	 */
 	private JPanel createControlPanel() {
 		JPanel jp_Button = new JPanel(new GridLayout(3, 5, 15, 30));
-		jp_Button.setName("Control");
+		jp_Button.setName(CommandList.DR002_CONTROL_PANEL);
 		
 		//first row
 		//placeholders
@@ -326,12 +329,6 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR002_SUBMIT)) {
-			
-//			Object a = ((JButton)arg0.getSource()).getParent().getParent();
-//			
-//			if(a instanceof JPanel) {
-//				Component c = ((JPanel)a).getComponent(0);
-//			}
 			//After clicking on "Submit" Button
 			/**********1. Validate the input fields****************************/
 			//Get the JPanel object which is including all components
@@ -341,7 +338,9 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 
 			/**********2. Get all values after validation**********************/
 			if(valiResult) {
-				
+				//if all the inputs are ok, it needs to check if the user name is available.
+			} else {
+				//if there are error in inputs, show error message of the problems.
 			}
 			/**********3. Update data file*************************************/
 			
@@ -414,16 +413,16 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 			Component[] root = ((JPanel) container).getComponents();
 			Component[] ends;
 			JPanel jpChild;
-			String strValue;
+			String strValue = null;
 			Boolean bResult = true;
 			arlValues.clear();
 			
 			for(int ite = 0; ite < root.length; ite ++) {
 				if(root[ite] instanceof JPanel) {
 					jpChild = (JPanel)root[ite];
-					if(jpChild.getName().equals("Control")) {
+					if(jpChild.getName().equals(CommandList.DR002_CONTROL_PANEL)) {
 						continue;
-					} else if(jpChild.getName().equals("Personal")) {
+					} else if(jpChild.getName().equals(CommandList.DR002_PERSONAL_PANEL)) {
 						ends = jpChild.getComponents();
 						
 						for(int it = 0; it < ends.length; it ++) {
@@ -465,31 +464,85 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 								}
 							}
 						}
-					} else if(jpChild.getName().equals("Credential")) {
+					} else if(jpChild.getName().equals(CommandList.DR002_CREDENTIAL_PANEL)) {
 						ends = jpChild.getComponents();
 						
-						for(int it = 0; it < ends.length; it ++) {
+						for(int it = 0; it < ends.length - 1; it ++) {
 							if(ends[it] instanceof JTextField) {
 								switch(ends[it].getName()) {
 									case CommandList.DR002_USERNAME:
+										strValue = ((JTextField)ends[it]).getText();
+										if(!strValue.matches("")) {
+											bResult &= false;
+											strValue = "Error";
+											ends[it].setBackground(Color.YELLOW);
+										}
+										arlValues.add(10, strValue);
 										break;
 									case CommandList.DR002_PASSWORD:
+										Document passDoc = ((JPasswordField)ends[it]).getDocument();
+										try {
+											strValue = passDoc.getText(0, passDoc.getLength());
+											if(!strValue.matches("")) {
+												bResult &= false;
+												strValue = "Error";
+												ends[it].setBackground(Color.YELLOW);
+											} else {
+												passDoc = ((JPasswordField)ends[it + 1]).getDocument();
+												if(!passDoc.getText(0, passDoc.getLength()).equals(strValue)) {
+													bResult &= false;
+													strValue = "Error";
+													ends[it].setBackground(Color.YELLOW);
+													ends[it + 1].setBackground(Color.YELLOW);
+												}
+											}
+											arlValues.add(11, strValue.equals("Error") ? strValue : MD5.encrypt(strValue));
+										} catch (Exception e) {
+											// TODO Auto-generated catch block
+											bResult &= false;
+											strValue = "Error";
+											ends[it].setBackground(Color.YELLOW);
+											arlValues.add(11, strValue);
+										}
 										break;
-									case CommandList.DR002_CONFIRMPASSWORD:
-										break;
+//									case CommandList.DR002_CONFIRMPASSWORD:
+//										break;
 									default:
 								}
 							}
 						}
-					} else if(jpChild.getName().equals("Security")) {
+					} else if(jpChild.getName().equals(CommandList.DR002_SECURITY_PANEL)) {
 						ends = jpChild.getComponents();
 						
 						for(int it = 0; it < ends.length; it ++) {
 							if(ends[it] instanceof JTextField) {
 								switch(ends[it].getName()) {
 									case CommandList.DR002_SECURITY_QUESTION:
+										strValue = ((JTextField)ends[it]).getText();
+										if(strValue.equals("")) {
+											bResult &= false;
+											strValue = "Error";
+											ends[it].setBackground(Color.YELLOW);
+										}
+										arlValues.add(31, strValue);
 										break;
 									case CommandList.DR002_SECURITY_ANSWER:
+										strValue = ((JTextField)ends[it]).getText();
+										if(strValue.equals("")) {
+											bResult &= false;
+											strValue = "Error";
+											ends[it].setBackground(Color.YELLOW);
+										}
+										try {
+											arlValues.add(32, strValue.equals("Error") ? strValue : MD5.encrypt(strValue));
+										} catch (NoSuchAlgorithmException
+												| UnsupportedEncodingException e) {
+											// TODO Auto-generated catch block
+											bResult &= false;
+											strValue = "Error";
+											ends[it].setBackground(Color.YELLOW);
+											arlValues.add(11, strValue);
+										}
 										break;
 									default:
 								}
@@ -498,6 +551,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 					}
 				}
 			}
+			return bResult;
 		}
 		
 		return false;

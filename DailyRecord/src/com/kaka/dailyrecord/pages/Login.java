@@ -25,9 +25,6 @@ import com.kaka.common.*;
  */
 public class Login extends JFrame implements WindowListener, ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3157110818330966194L;
 	
 	private static Login instance = null;
@@ -215,7 +212,6 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 		// TODO Auto-generated method stub
 	}
 
-//	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
@@ -301,7 +297,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 //			Button "Forget?" is clicked, which indicates that the user forgets his/her password.
 //			A pop-up window would be shown above the Login window.
 			String strUser = JOptionPane.showInputDialog(this, "Please input your UserName: ", "Forget Password", JOptionPane.PLAIN_MESSAGE, null, null, null).toString();
-			Object[] objResult = DataHandle.getData("register", new String[] {"SecurityQ"}, new String[] {"UserName"}, new String[] {strUser});
+			Object[] objResult = DataHandle.getData("register", new String[] {"SecurityQ"}, new String[] {"UserName"}, new String[] {"=="}, new String[] {strUser});
 			
 		}
 	}

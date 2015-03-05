@@ -125,7 +125,16 @@ public class DataHandle {
 		return iRet; //0 means fail to delete the user.
 	}
 
-	public static Object[] getData(String tblName, String[] outVal, String[] condField, String[] condValue) {
+	/**
+	 * This function is used to select data from corresponding data file.
+	 * @param tblName			Table name, it is the file name
+	 * @param outCols			Output columns
+	 * @param condField			Fields that are used in where clause
+	 * @param condOperator		Operators that are used to indicator how to filter the data
+	 * @param condValue			Boundary values
+	 * @return	the result set
+	 */
+	public static Object[] getData(String tblName, String[] outCols, String[] condField, String[] condOperator, String[] condValue) {
 		String strList = FileHandle.readDataFile(tblName);
 		
 		strList = strList.replace("<DairyRecord>", "");
