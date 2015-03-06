@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.kaka.dailyrecord.pages;
 
 import java.awt.*;
@@ -15,16 +12,12 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-//import javax.swing.plaf.FontUIResource;
 
-
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 import com.kaka.common.CommandList;
 import com.kaka.common.MD5;
 import com.kaka.common.UI;
-//import com.sun.org.apache.xml.internal.dtm.Axis;
 
 /**
  * Screen ID: DR002
