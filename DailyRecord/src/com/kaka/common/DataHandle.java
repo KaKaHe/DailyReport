@@ -25,7 +25,7 @@ public class DataHandle {
 		
 		String strUP = "";
 		String strRest = "";
-		String strInfo = "";
+		String strInfo = "";	//Store the information that is returned to caller.
 		
 		while(!strList.isEmpty()) {
 			int start = strList.indexOf("<Register>") + 10;
@@ -125,6 +125,51 @@ public class DataHandle {
 		return iRet; //0 means fail to delete the user.
 	}
 
+	public static String[] forgetPassword(String UserName) {
+		String strQuestion[] = new String[2];
+		String strList = FileHandle.readDataFile(strFile_User);
+		
+		strList = strList.replace("<DairyRecord>", "");
+		strList = strList.replace("</DairyRecord>", "");
+		
+		//String[] strLine = strList.split(System.getProperty(strLineSeparator));
+		while(!strList.isEmpty()) {
+			int start = strList.indexOf("<Register>") + 10;
+			int end = strList.indexOf("</Register>");
+			
+			//intercept one record
+			String singleRecord = strList.substring(start, end);
+			//erase the current record from the base string
+			strList = strList.substring(end + 11);
+			
+			//intercept username
+			String strUser = singleRecord.substring(singleRecord.indexOf("<UserName>") + 10, singleRecord.indexOf("</UserName>"));
+			
+			//Check Username
+			if(UserName.equals(strUser)){
+				//erase xml element from single record
+				singleRecord = singleRecord.substring(singleRecord.indexOf("infos") + 5, singleRecord.indexOf("><", singleRecord.indexOf("infos") + 5));
+				
+				String[] strProperties = singleRecord.split(",");
+				
+				for (int i = 0; i < strProperties.length; i ++) {
+					int iOP = strProperties[i].indexOf("=");
+					if(strProperties[i].substring(0, iOP).equals("SecurityQ")) {
+						strQuestion[0] = strProperties[i].replace("\"", "").substring(iOP + 1);
+					} else if(strProperties[i].substring(0, iOP).equals("SecurityA")) {
+						strQuestion[1] = strProperties[i].replace("\"", "").substring(iOP + 1);
+						break;
+					}
+				}
+				
+				//Stop searching
+				break;
+			}
+		}
+		
+		return strQuestion;
+	}
+	
 	/**
 	 * This function is used to select data from corresponding data file.
 	 * @param tblName			Table name, it is the file name

@@ -296,8 +296,59 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 		} else if(arg0 != null && arg0.getActionCommand().equals(CommandList.DR001_FORGET)) {
 //			Button "Forget?" is clicked, which indicates that the user forgets his/her password.
 //			A pop-up window would be shown above the Login window.
-			String strUser = JOptionPane.showInputDialog(this, "Please input your UserName: ", "Forget Password", JOptionPane.PLAIN_MESSAGE, null, null, null).toString();
-			Object[] objResult = DataHandle.getData("register", new String[] {"SecurityQ"}, new String[] {"UserName"}, new String[] {"=="}, new String[] {strUser});
+
+			try {
+				String[] strRetrieve = null;
+				Object strUser = JOptionPane.showInputDialog(this, "Please input your UserName: ", "Forget Password", JOptionPane.PLAIN_MESSAGE, null, null, null);
+				
+				if(strUser != null) {
+					strRetrieve = DataHandle.forgetPassword(strUser.toString());
+				
+					Object strInputA = JOptionPane.showInputDialog(this, strRetrieve[0], "Forget Password", JOptionPane.PLAIN_MESSAGE, null, null, null);
+					
+					if(strInputA != null && MD5.encrypt(strInputA.toString()).equals(strRetrieve[1])) {
+						//If the answer is correct, let user input the new password.
+						//Object strNewPassword = JOptionPane.showInputDialog(this, "Please input your new Password: ", "Reset Password", JOptionPane.PLAIN_MESSAGE, null, null, null);
+						JLabel jlNew = new JLabel("Please Input New Password: ");
+						JPasswordField jpfNew = new JPasswordField();
+						Object[] ob = {jlNew, jpfNew};
+						int result = JOptionPane.showConfirmDialog(null, ob, "New Password", JOptionPane.OK_CANCEL_OPTION);
+						if(result == JOptionPane.OK_OPTION) {
+							Document newPass = jpfNew.getDocument();
+							String strNew = newPass.getText(0, newPass.getLength());
+							
+							if(strNew.matches("")) {
+								result = JOptionPane.showConfirmDialog(null, ob, "Confirm New Password", JOptionPane.OK_CANCEL_OPTION);
+								if(result == JOptionPane.OK_OPTION) {
+									Document confPass = jpfNew.getDocument();
+									String strConf = confPass.getText(0, confPass.getLength());
+									
+									if(strNew.equals(strConf)) {
+										
+									} else {
+										
+									}
+								}
+							} else {
+								
+							}							
+						}
+						
+					} else {
+						//If the answer is not correct, show error message.
+					}
+				}
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//Object[] objResult = DataHandle.getData("register", new String[] {"SecurityQ"}, new String[] {"UserName"}, new String[] {"=="}, new String[] {strUser});
 			
 		}
 	}
