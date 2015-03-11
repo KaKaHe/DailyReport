@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.kaka.dailyrecord.pages;
 
 import javax.swing.*;
@@ -231,7 +228,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 //				Document passDoc = jpf_Password.getDocument();
 //				passDoc.getLength();
 				
-				if(passDoc.getLength() > 5 && passDoc.getLength() < 17){
+				if(passDoc.getLength() > 7 && passDoc.getLength() < 17){
 					String passWord = MD5.encrypt(passDoc.getText(0, passDoc.getLength()));
 					strUserInfo = DataHandle.validatePassword(userName, passWord);
 				}
@@ -267,10 +264,11 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 //			Call Function <deleteExistingUser(String UserName, String Password)>
 			int iResult = 0;
 			try {
-				if(passDoc.getLength() > 5 && passDoc.getLength() < 17) {
+				if(passDoc.getLength() > 7 && passDoc.getLength() < 17) {
 					String passWord = MD5.encrypt(passDoc.getText(0, passDoc.getLength()));
 					iResult = DataHandle.deleteExistingUser(userName, passWord);
 					
+					//if the deletion is not succeed, clear the user name and password input field.
 					if (iResult == 99) {
 						//User doesn't exist
 						JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG002);
@@ -301,42 +299,51 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 				String[] strRetrieve = null;
 				Object strUser = JOptionPane.showInputDialog(this, "Please input your UserName: ", "Forget Password", JOptionPane.PLAIN_MESSAGE, null, null, null);
 				
-				if(strUser != null) {
+				if(!strUser.toString().isEmpty()) {
 					strRetrieve = DataHandle.forgetPassword(strUser.toString());
-				
-					Object strInputA = JOptionPane.showInputDialog(this, strRetrieve[0], "Forget Password", JOptionPane.PLAIN_MESSAGE, null, null, null);
 					
-					if(strInputA != null && MD5.encrypt(strInputA.toString()).equals(strRetrieve[1])) {
-						//If the answer is correct, let user input the new password.
-						//Object strNewPassword = JOptionPane.showInputDialog(this, "Please input your new Password: ", "Reset Password", JOptionPane.PLAIN_MESSAGE, null, null, null);
-						JLabel jlNew = new JLabel("Please Input New Password: ");
-						JPasswordField jpfNew = new JPasswordField();
-						Object[] ob = {jlNew, jpfNew};
-						int result = JOptionPane.showConfirmDialog(null, ob, "New Password", JOptionPane.OK_CANCEL_OPTION);
-						if(result == JOptionPane.OK_OPTION) {
-							Document newPass = jpfNew.getDocument();
-							String strNew = newPass.getText(0, newPass.getLength());
-							
-							if(strNew.matches("")) {
-								result = JOptionPane.showConfirmDialog(null, ob, "Confirm New Password", JOptionPane.OK_CANCEL_OPTION);
-								if(result == JOptionPane.OK_OPTION) {
-									Document confPass = jpfNew.getDocument();
-									String strConf = confPass.getText(0, confPass.getLength());
-									
-									if(strNew.equals(strConf)) {
-										
-									} else {
-										
-									}
-								}
-							} else {
-								
-							}							
-						}
+					if(!strRetrieve[0].isEmpty()) {
+						Object strInputA = JOptionPane.showInputDialog(this, strRetrieve[0], "Forget Password", JOptionPane.PLAIN_MESSAGE, null, null, null);
 						
+						if(strInputA != null && MD5.encrypt(strInputA.toString()).equals(strRetrieve[1])) {
+							//If the answer is correct, let user input the new password.
+							JLabel jlNew = new JLabel("Please Input New Password: ");
+							JPasswordField jpfNew = new JPasswordField();
+							Object[] ob = {jlNew, jpfNew};
+							int result = JOptionPane.showConfirmDialog(null, ob, "New Password", JOptionPane.OK_CANCEL_OPTION);
+							if(result == JOptionPane.OK_OPTION) {
+								Document newPass = jpfNew.getDocument();
+								String strNew = newPass.getText(0, newPass.getLength());
+								
+								if(strNew.matches("^[a-zA-Z0-9&*_@.#]{8,16}")) {
+									jpfNew = new JPasswordField();
+									ob = new Object[] {jlNew, jpfNew};
+									result = JOptionPane.showConfirmDialog(null, ob, "Confirm New Password", JOptionPane.OK_CANCEL_OPTION);
+									if(result == JOptionPane.OK_OPTION) {
+										Document confPass = jpfNew.getDocument();
+										String strConf = confPass.getText(0, confPass.getLength());
+										
+										if(strNew.equals(strConf)) {
+											//Go to update the password
+										} else {
+											//Show error message since the second password is not same with the first one.
+										}
+									}
+								} else {
+									//If the password does not match the regular expression, show error message.
+								}							
+							}
+							
+						} else {
+							//If the answer is not correct, show error message.
+						}
 					} else {
-						//If the answer is not correct, show error message.
+						//If getting security question is failed, show error message.
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG003);
 					}
+				} else {
+					//if the input user does not exist, show error message.
+					JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG002);
 				}
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block

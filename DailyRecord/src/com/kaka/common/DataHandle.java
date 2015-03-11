@@ -170,6 +170,11 @@ public class DataHandle {
 		return strQuestion;
 	}
 	
+	public static void operateUser(Boolean bFlag, String strUser, String[] strValues) {
+		//if bFlag is true, it means add new user
+		//if bFlag is false, it means update existing user
+	}
+	
 	/**
 	 * This function is used to select data from corresponding data file.
 	 * @param tblName			Table name, it is the file name

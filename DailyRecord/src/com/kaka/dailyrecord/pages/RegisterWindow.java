@@ -354,7 +354,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 	public void windowActivated(WindowEvent arg0) {
 		// TODO Auto-generated method stub
 //		Set the initial size of login window;
-		this.setSize(new Dimension(800,800));
+		this.setSize(new Dimension(850,800));
 		Dimension d_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //		Set the window's location related to the screen size;
 		this.setLocation(d_screenSize.width/2 - 450, d_screenSize.height/2 - 450);
@@ -476,7 +476,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 										Document passDoc = ((JPasswordField)ends[it]).getDocument();
 										try {
 											strValue = passDoc.getText(0, passDoc.getLength());
-											if(!strValue.matches("")) {
+											if(!strValue.matches("^[a-zA-Z0-9&*_@.#]{8,16}")) {
 												bResult &= false;
 												strValue = "Error";
 												ends[it].setBackground(Color.YELLOW);
