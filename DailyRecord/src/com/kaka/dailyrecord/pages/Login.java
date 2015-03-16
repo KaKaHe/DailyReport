@@ -301,6 +301,8 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 				
 				if(!strUser.toString().isEmpty()) {
 					strRetrieve = DataHandle.forgetPassword(strUser.toString());
+					//strRetrieve[0] is the security question
+					//strRetrieve[1] is the encrypted security answer
 					
 					if(!strRetrieve[0].isEmpty()) {
 						Object strInputA = JOptionPane.showInputDialog(this, strRetrieve[0], "Forget Password", JOptionPane.PLAIN_MESSAGE, null, null, null);
@@ -315,7 +317,7 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 								Document newPass = jpfNew.getDocument();
 								String strNew = newPass.getText(0, newPass.getLength());
 								
-								if(strNew.matches("^[a-zA-Z0-9&*_@.#]{8,16}")) {
+								if(strNew.matches("^[a-zA-Z0-9&*_@.#]{8,16}$")) {
 									jpfNew = new JPasswordField();
 									ob = new Object[] {jlNew, jpfNew};
 									result = JOptionPane.showConfirmDialog(null, ob, "Confirm New Password", JOptionPane.OK_CANCEL_OPTION);
@@ -325,17 +327,21 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 										
 										if(strNew.equals(strConf)) {
 											//Go to update the password
+											DataHandle.operateUser(false, strUser.toString(), null);
 										} else {
 											//Show error message since the second password is not same with the first one.
+											JOptionPane.showMessageDialog(this.getParent(), "The passwords are not same.");
 										}
 									}
 								} else {
 									//If the password does not match the regular expression, show error message.
+									JOptionPane.showMessageDialog(this.getParent(), "The password cannot be accepted.");
 								}							
 							}
 							
 						} else {
 							//If the answer is not correct, show error message.
+							JOptionPane.showMessageDialog(this.getParent(), "The answer is not correct!");
 						}
 					} else {
 						//If getting security question is failed, show error message.

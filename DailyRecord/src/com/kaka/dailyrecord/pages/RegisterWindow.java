@@ -476,7 +476,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 										Document passDoc = ((JPasswordField)ends[it]).getDocument();
 										try {
 											strValue = passDoc.getText(0, passDoc.getLength());
-											if(!strValue.matches("^[a-zA-Z0-9&*_@.#]{8,16}")) {
+											if(!strValue.matches("^[a-zA-Z0-9&*_@.#]{8,16}$")) {
 												bResult &= false;
 												strValue = "Error";
 												ends[it].setBackground(Color.YELLOW);
