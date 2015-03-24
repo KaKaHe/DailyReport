@@ -12,6 +12,8 @@ public class DataHandle {
 	private static String strActiveStatus = "Status=\"A\"";
 	private static String strInactiveStatus = "Status=\"I\"";
 	private static String strErrorStatus = "Status=\"E\"";
+	private static String strSecurityQ = "SecurityQ=";
+	private static String strSecurityA = "SecurityA=";
 	private static String strFile_User = "register";
 	private static String strLineSeparator = "line.separator";
 /************************************************************************************************************/
@@ -154,9 +156,11 @@ public class DataHandle {
 				
 				for (int i = 0; i < strProperties.length; i ++) {
 					int iOP = strProperties[i].indexOf("=");
-					if(strProperties[i].substring(0, iOP).equals("SecurityQ")) {
+					//if(strProperties[i].substring(0, iOP).equals("SecurityQ")) {
+					if(strProperties[i].substring(0, iOP + 1).equals(strSecurityQ)) {
 						strQuestion[0] = strProperties[i].replace("\"", "").substring(iOP + 1);
-					} else if(strProperties[i].substring(0, iOP).equals("SecurityA")) {
+					//} else if(strProperties[i].substring(0, iOP).equals("SecurityA")) {
+					} else if(strProperties[i].substring(0, iOP + 1).equals(strSecurityA)) {
 						strQuestion[1] = strProperties[i].replace("\"", "").substring(iOP + 1);
 						break;
 					}
@@ -173,6 +177,51 @@ public class DataHandle {
 	public static void operateUser(Boolean bFlag, String strUser, String[] strValues) {
 		//if bFlag is true, it means add new user
 		//if bFlag is false, it means update existing user
+		
+		//no mater adding new or updating existing, open the data file first.
+		String strList = FileHandle.readDataFile(strFile_User);
+		int iMaxUID = 0;
+		
+		strList = strList.replace("<DairyRecord>", "");
+		strList = strList.replace("</DairyRecord>", "");
+		
+		String strData = "";
+		StringBuilder sbData = new StringBuilder();
+
+		sbData.append("<DairyRecord>");
+		sbData.append(System.getProperty(strLineSeparator));
+		if(bFlag) {
+			//When adding new user, get the maximum user id and add one.
+			iMaxUID = 1 + Integer.parseInt(strList.substring(strList.indexOf("<MaxId>") + 7), strList.indexOf("</MaxId>"));
+			sbData.append("<MaxId>" + Integer.toString(iMaxUID) + "</MaxId>");
+			sbData.append(System.getProperty(strLineSeparator));
+			strList = strList.substring(strList.indexOf("</MaxId>") + 8);
+		}
+		sbData.append(strList.substring(0, strList.indexOf("<Register>")));
+		sbData.append(System.getProperty(strLineSeparator));
+		
+		//traverse the users data.
+		//For adding user, this is used to check the unique username.
+		//For updating user, this is used to get the current user data.
+		while(!strList.isEmpty()) {
+			int start = strList.indexOf("<Register>") + 10;
+			int end = strList.indexOf("</Register>");
+			
+			String singleRecord = strList.substring(start, end);
+			strList = strList.substring(end + 11);
+			strData = singleRecord.substring(0, singleRecord.indexOf("</UserName>") + 11);
+			String strCompare = "<UserName>" + strUser + "</UserName>";
+			
+			if(strCompare.equals(strData)) {
+				//If the user name can be matched, it is going to update the information when updating. it is going to return an unique error when adding.
+				if(bFlag) {
+					//If this is for adding new user, return unique check failed error.
+				} else {
+					//If this is for updating user, form the string and update.
+				}
+			}
+		}
+		
 	}
 	
 	/**
