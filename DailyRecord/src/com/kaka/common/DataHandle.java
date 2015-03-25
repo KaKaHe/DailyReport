@@ -3,17 +3,27 @@
  */
 package com.kaka.common;
 
+import java.text.*;
+import java.util.Date;
+
 /**
  * @author KaKa
  *
  */
 public class DataHandle {
 /******Global Variables Declaration***************************************************************************/
+	private static String strUserID = "UserId=";
+	private static String strFirstName = "FirstName=";
+	private static String strLastName = "LastName=";
+	private static String strEmail = "Email=";
+	private static String strSecurityQ = "SecurityQ=";
+	private static String strSecurityA = "SecurityA=";
+	private static String strBirthday = "Birthday=";
+	private static String strFirstReg = "FirstReg=";
+	private static String strGender = "Gender=";
 	private static String strActiveStatus = "Status=\"A\"";
 	private static String strInactiveStatus = "Status=\"I\"";
 	private static String strErrorStatus = "Status=\"E\"";
-	private static String strSecurityQ = "SecurityQ=";
-	private static String strSecurityA = "SecurityA=";
 	private static String strFile_User = "register";
 	private static String strLineSeparator = "line.separator";
 /************************************************************************************************************/
@@ -175,8 +185,25 @@ public class DataHandle {
 	}
 	
 	public static void operateUser(Boolean bFlag, String strUser, String[] strValues) {
-		//if bFlag is true, it means add new user
-		//if bFlag is false, it means update existing user
+		/********************************************************************************************************************************************
+		 * Description of Flags, variable <Boolean> bFlag
+		 * True, it means add new user
+		 * False, it means update existing user
+		 ********************************************************************************************************************************************/
+		/********************************************************************************************************************************************
+		 * Description of Values <Array index>
+		 * There is no user name in the value array, because it is passed in by the variable <strUser>
+		 * 0: Password
+		 * 1: First Name
+		 * 2: Last Name
+		 * 3: Email
+		 * 4: Security Question
+		 * 5: Security Answer
+		 * 6: Birthday
+		 * 7: Gender 
+		 * When adding new user, if the value is null, it means there is no value. The mandatory validation is done before calling this function.
+		 * When updating user, if the value is null, it means the value is not changed.
+		 ********************************************************************************************************************************************/
 		
 		//no mater adding new or updating existing, open the data file first.
 		String strList = FileHandle.readDataFile(strFile_User);
@@ -186,7 +213,8 @@ public class DataHandle {
 		strList = strList.replace("</DairyRecord>", "");
 		
 		String strData = "";
-		StringBuilder sbData = new StringBuilder();
+		StringBuilder sbData = new StringBuilder(); //Whole data string
+		StringBuilder sbSingle; //singel new data string
 
 		sbData.append("<DairyRecord>");
 		sbData.append(System.getProperty(strLineSeparator));
@@ -207,8 +235,13 @@ public class DataHandle {
 			int start = strList.indexOf("<Register>") + 10;
 			int end = strList.indexOf("</Register>");
 			
+			//extract the first record and erase it from the data string preparing for file.
 			String singleRecord = strList.substring(start, end);
 			strList = strList.substring(end + 11);
+			
+			sbSingle = new StringBuilder();	//initialize the new string builder
+			
+			//Form the user name string for comparing.
 			strData = singleRecord.substring(0, singleRecord.indexOf("</UserName>") + 11);
 			String strCompare = "<UserName>" + strUser + "</UserName>";
 			
@@ -218,10 +251,111 @@ public class DataHandle {
 					//If this is for adding new user, return unique check failed error.
 				} else {
 					//If this is for updating user, form the string and update.
+					//Append user name to the writing queue.
+					sbSingle.append(strCompare);
+					
+					// 0: Password
+					if(strValues[0].isEmpty()) {
+						sbSingle.append(singleRecord.substring(singleRecord.indexOf("<Password>"), singleRecord.indexOf("</Password>") + 11));
+					} else {
+						sbSingle.append("<Password>" + strValues[0] + "</Password>");
+					}
+					
+					// form the general information string
+					sbSingle.append(singleRecord.substring(singleRecord.indexOf("<infos"), singleRecord.indexOf(strFirstName)));
+					
+					// 1: First Name
+					if(strValues[1].isEmpty()) {
+						sbSingle.append(singleRecord.substring(singleRecord.indexOf(strFirstName), singleRecord.indexOf(strLastName)));
+					} else {
+						sbSingle.append(strFirstName + "\"" + strValues[1] + "\",");
+					}
+					
+					// 2: Last Name
+					if(strValues[2].isEmpty()) {
+						sbSingle.append(singleRecord.substring(singleRecord.indexOf(strLastName), singleRecord.indexOf(strEmail)));
+					} else {
+						sbSingle.append(strLastName + "\"" + strValues[2] + "\",");
+					}
+					
+					// 3: Email
+					if(strValues[3].isEmpty()) {
+						sbSingle.append(singleRecord.substring(singleRecord.indexOf(strEmail), singleRecord.indexOf(strSecurityQ)));
+					} else {
+						sbSingle.append(strEmail + "\"" + strValues[3] + "\",");
+					}
+					
+					// 4: Security Question
+					if(strValues[4].isEmpty()) {
+						sbSingle.append(singleRecord.substring(singleRecord.indexOf(strSecurityQ), singleRecord.indexOf(strSecurityA)));
+					} else {
+						sbSingle.append(strSecurityQ + "\"" + strValues[4] + "\",");
+					}
+					
+					// 5: Security Answer
+					if(strValues[5].isEmpty()) {
+						sbSingle.append(singleRecord.substring(singleRecord.indexOf(strSecurityA), singleRecord.indexOf(strBirthday)));
+					} else {
+						sbSingle.append(strSecurityA + "\"" + strValues[5] + "\",");
+					}
+					
+					// 6: Birthday
+					if(strValues[6].isEmpty()) {
+						sbSingle.append(singleRecord.substring(singleRecord.indexOf(strBirthday), singleRecord.indexOf(strGender)));
+					} else {
+						sbSingle.append(strBirthday + "\"" + strValues[6] + "\",");
+					}
+					
+					// 7: Gender
+					if(strValues[7].isEmpty()) {
+						sbSingle.append(singleRecord.substring(singleRecord.indexOf(strGender), singleRecord.indexOf(strFirstReg)));
+					} else {
+						sbSingle.append(strGender + "\"" + strValues[7].substring(0, 1) + "\",");
+					}
+					
+					//Append the rest parts of string
+					sbSingle.append(singleRecord.indexOf(strFirstReg));
 				}
+			} else{
+				//no matter adding or updating, it needs to keep the old user's data staying in the string
+				sbSingle.append(singleRecord);
 			}
+			
+			//Append quote elements
+			sbData.append("<Register>" + sbSingle.toString() + "</Register>");
+			sbData.append(System.getProperty(strLineSeparator));
 		}
 		
+		//If this function is called for adding, the program will reach here only when the user name pass the unique check.
+		if(bFlag) {
+			DateFormat todayF = new SimpleDateFormat("yyyyMMdd");
+			Date today = new Date();
+			sbSingle = new StringBuilder();
+			
+			sbSingle.append("<UserName>" + strUser + "</UserName>");
+			sbSingle.append("<Password>" + strValues[0] + "</Password>");
+			sbSingle.append("<infos ");
+			sbSingle.append(strUserID + "\"" + iMaxUID + "\",");
+			sbSingle.append(strFirstName + "\"" + strValues[1] + "\",");
+			sbSingle.append(strLastName + "\"" + strValues[2] + "\",");
+			sbSingle.append(strEmail + "\"" + strValues[3] + "\",");
+			sbSingle.append(strSecurityQ + "\"" + strValues[4] + "\",");
+			sbSingle.append(strSecurityA + "\"" + strValues[5] + "\",");
+			sbSingle.append(strBirthday + "\"" + strValues[6] + "\",");
+			sbSingle.append(strGender + "\"" + strValues[7].substring(0, 1) + "\",");
+			sbSingle.append(strFirstReg + "\"" + todayF.format(today) + "\",");
+			sbSingle.append(strActiveStatus + "></infos>");
+			
+			sbData.append("<Register>" + sbSingle.toString() + "</Register>");
+			sbData.append(System.getProperty(strLineSeparator));
+			
+		}
+		
+		//Append end element
+		sbData.append("</DairyRecord>");
+		
+		//Write to File
+		FileHandle.writeDataFileFos(strFile_User, sbData.toString());
 	}
 	
 	/**
