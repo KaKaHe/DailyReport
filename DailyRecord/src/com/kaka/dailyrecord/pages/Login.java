@@ -327,7 +327,29 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 										
 										if(strNew.equals(strConf)) {
 											//Go to update the password
-											DataHandle.operateUser(false, strUser.toString(), null);
+											//0: Password; 1: First Name; 2: Last Name; 3: Email; 4: Security Question; 5: Security Answer; 6: Birthday; 7: Gender
+											String[] strUserVals = new String[] {MD5.encrypt(strNew), "", "", "", "", "", "", ""};
+											int iResult = DataHandle.operateUser(false, strUser.toString(), strUserVals);
+											
+											if (iResult == 99) {
+												//User doesn't exist
+												JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG002);
+											} else if (iResult == 50) {
+												//User has error
+												JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG003);
+											} else if (iResult == 22) {
+												//User name existing
+												JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG006);
+											} else if (iResult == 44) {
+												//writing file failed
+												JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG007);
+											} else if (iResult == 1) {
+												//updating succeed.
+												JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG009);
+											} else {
+												//unknown error
+												JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG008);
+											}
 										} else {
 											//Show error message since the second password is not same with the first one.
 											JOptionPane.showMessageDialog(this.getParent(), "The passwords are not same.");

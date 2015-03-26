@@ -54,9 +54,13 @@ public final class CommandList {
 	
 /***Error Message:****************************************************************************/
 	public static final String DR001_MSG001 = "User Name or Password is incorrect.";
-	public static final String DR001_MSG002 = "The user is not existed.";
+	public static final String DR001_MSG002 = "The user does not exist.";
 	public static final String DR001_MSG003 = "There is error about this account, please contact administrator.";
 	public static final String DR001_MSG004 = "Deleting user failed.";
 	public static final String DR001_MSG005 = "User has been deleted.";
+	public static final String DR001_MSG006 = "User name has already existed.";
+	public static final String DR001_MSG007 = "Data file error.";
+	public static final String DR001_MSG008 = "Setting new password failed.";
+	public static final String DR001_MSG009 = "New password setup succeed.";
 /*********************************************************************************************/
 }

@@ -184,7 +184,7 @@ public class DataHandle {
 		return strQuestion;
 	}
 	
-	public static void operateUser(Boolean bFlag, String strUser, String[] strValues) {
+	public static int operateUser(Boolean bFlag, String strUser, String[] strValues) {
 		/********************************************************************************************************************************************
 		 * Description of Flags, variable <Boolean> bFlag
 		 * True, it means add new user
@@ -204,6 +204,17 @@ public class DataHandle {
 		 * When adding new user, if the value is null, it means there is no value. The mandatory validation is done before calling this function.
 		 * When updating user, if the value is null, it means the value is not changed.
 		 ********************************************************************************************************************************************/
+		/********************************************************************************************************************************************
+		 * Decription of return value <iRet>
+		 * 0: opearting failed with unknown reason either adding or updating
+		 * 1: successful operating either adding or updating
+		 * 22:Unique check failed while adding
+		 * 44:File writing error either adding or updating
+		 * 50:User account in error status (Status = "E") while updating
+		 * 99:User doens't exist while updating
+		 ********************************************************************************************************************************************/
+		//Result flag
+		int iRet = -1;
 		
 		//no mater adding new or updating existing, open the data file first.
 		String strList = FileHandle.readDataFile(strFile_User);
@@ -245,10 +256,12 @@ public class DataHandle {
 			strData = singleRecord.substring(0, singleRecord.indexOf("</UserName>") + 11);
 			String strCompare = "<UserName>" + strUser + "</UserName>";
 			
-			if(strCompare.equals(strData)) {
+			if(strCompare.equals(strData) && singleRecord.indexOf(strActiveStatus) > 0) {
 				//If the user name can be matched, it is going to update the information when updating. it is going to return an unique error when adding.
 				if(bFlag) {
 					//If this is for adding new user, return unique check failed error.
+					iRet = 22;
+					break;
 				} else {
 					//If this is for updating user, form the string and update.
 					//Append user name to the writing queue.
@@ -314,9 +327,13 @@ public class DataHandle {
 					}
 					
 					//Append the rest parts of string
-					sbSingle.append(singleRecord.indexOf(strFirstReg));
+					sbSingle.append(singleRecord.substring(singleRecord.indexOf(strFirstReg)));
+					iRet = 1;
 				}
-			} else{
+			} else if(strCompare.equals(strData) && singleRecord.indexOf(strErrorStatus) > 0) {
+				//The user account has error, need to contact administrator.
+				iRet = 50;
+			} else {
 				//no matter adding or updating, it needs to keep the old user's data staying in the string
 				sbSingle.append(singleRecord);
 			}
@@ -327,7 +344,7 @@ public class DataHandle {
 		}
 		
 		//If this function is called for adding, the program will reach here only when the user name pass the unique check.
-		if(bFlag) {
+		if(bFlag && iRet == -1) {
 			DateFormat todayF = new SimpleDateFormat("yyyyMMdd");
 			Date today = new Date();
 			sbSingle = new StringBuilder();
@@ -348,14 +365,26 @@ public class DataHandle {
 			
 			sbData.append("<Register>" + sbSingle.toString() + "</Register>");
 			sbData.append(System.getProperty(strLineSeparator));
-			
+			iRet = 1;
 		}
 		
 		//Append end element
 		sbData.append("</DairyRecord>");
 		
+		//User doesn't exist while updating
+		if(!bFlag && iRet == -1) {
+			iRet = 99;
+		}
+		
 		//Write to File
-		FileHandle.writeDataFileFos(strFile_User, sbData.toString());
+		if(iRet == 1 && FileHandle.writeDataFileFos(strFile_User, sbData.toString())) {
+			iRet = 1;
+		} else {
+			//Writing to file failed
+			iRet = 44;
+		}
+		
+		return iRet;
 	}
 	
 	/**
