@@ -23,7 +23,7 @@ public final class CommandList {
 	public static final String DR002_USERNAME = "UserName ";
 	public static final String DR002_PASSWORD = "Password ";
 	public static final String DR002_CONFIRMPASSWORD = "Confirm ";
-	public static final String DR002_PASSWORDINFO = "8-16 long a-z A-Z 0-9 &*_@.#";
+	public static final String DR002_PASSWORDINFO = " 8-16 long a-z A-Z 0-9 &*_@.#";
 	public static final String DR002_SECURITY_QUESTION = "Security Question ";
 	public static final String DR002_SECURITY_ANSWER = "Security Answer ";
 	public static final String DR002_FIRSTNAME = "First Name ";
@@ -32,7 +32,9 @@ public final class CommandList {
 	public static final String DR002_GENDER_MALE = "Male";
 	public static final String DR002_GENDER_FEMALE = "Female";
 	public static final String DR002_GENDER_OTHER = "Other";
-	public static final String DR002_AGE = "Age ";
+	public static final String DR002_BIRTHDAY = "Birthday ";
+	public static final String DR002_BIRTHDAYEXAMPLE = " Format: YYYY-MM-DD";
+	public static final String DR002_EMAIL = "Email ";
 	
 //	Account Summary
 /**********************************************************************************************/

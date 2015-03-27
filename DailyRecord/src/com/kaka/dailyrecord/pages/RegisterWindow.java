@@ -127,14 +127,14 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		//placeholder
 		jp_Personal.add(new JLabel());
 		//label
-		JLabel jl_Age = new JLabel(CommandList.DR002_AGE);
-		jp_Personal.add(jl_Age);
+		JLabel jl_Birthday = new JLabel(CommandList.DR002_BIRTHDAY);
+		jp_Personal.add(jl_Birthday);
 		//input field
-		JTextField jtf_Age = new JTextField();
-		jtf_Age.setName(CommandList.DR002_AGE);
-		jp_Personal.add(jtf_Age);
+		JTextField jtf_Birthday = new JTextField();
+		jtf_Birthday.setName(CommandList.DR002_BIRTHDAY);
+		jp_Personal.add(jtf_Birthday);
 		//placeholder
-		jp_Personal.add(new JLabel());
+		jp_Personal.add(new JLabel(CommandList.DR002_BIRTHDAYEXAMPLE));
 		
 		//Setup Font
 		UI.setupFont(jp_Personal, fUsual);
@@ -169,6 +169,19 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		//placeholder
 		jp_Credential.add(new JLabel());
 		
+		//Email
+		//placeholder
+		jp_Credential.add(new JLabel());
+		//label
+		JLabel jl_Email = new JLabel(CommandList.DR002_EMAIL);
+		jp_Credential.add(jl_Email);
+		//input field
+		JTextField jtf_Email = new JTextField();
+		jtf_Email.setName(CommandList.DR002_EMAIL);
+		jp_Credential.add(jtf_Email);
+		//placeholder
+		jp_Credential.add(new JLabel());
+		
 		//Password
 		//placeholder
 		jp_Credential.add(new JLabel());
@@ -196,16 +209,6 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 		//placeholder
 		jp_Credential.add(new JLabel());
 		
-		//Password Instruction
-		//placeholder
-		jp_Credential.add(new JLabel());
-		//placeholder
-		jp_Credential.add(new JLabel());
-		//placeholder
-		jp_Credential.add(new JLabel());
-		//placeholder
-		jp_Credential.add(new JLabel());
-
 		//Set Font
 		UI.setupFont(jp_Credential, fUsual);
 		return jp_Credential;
@@ -332,7 +335,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 			/**********2. Get all values after validation**********************/
 			if(valiResult) {
 				//if all the inputs are ok, call operate user function to process the data.
-				//Validation Result: 0: First Name 1: Last Name 2: Gender 3: Age 10: User name 11: Password 31: Security Question 32: Security Answer
+				//Validation Result: 0: First Name 1: Last Name 2: Gender 3: Birthday 10: User name 11: Password 12: Email 31: Security Question 32: Security Answer
 				//Input Parameters: 0: Password 1: First Name 2: Last Name 3: Email 4: Security Question 5: Security Answer 6: Birthday 7: Gender
 			} else {
 				//if there are error in inputs, show error message of the problems.
@@ -441,14 +444,14 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 										}
 										arlValues.add(1, strValue);
 										break;
-									case CommandList.DR002_AGE:
+									case CommandList.DR002_BIRTHDAY:
 										strValue = ((JTextField)ends[it]).getText();
-										if(!strValue.matches("^[1-9][0-9]?$")) {
+										if(!strValue.matches("^(19|20)[0-9]{2}-([0][1-9]|[1][12])-(0[1-9]|[12][0-9]|[3][01])$")) {
 											bResult &= false;
 											strValue = "Error";
 											ends[it].setBackground(Color.YELLOW);
 										}
-										arlValues.add(3, strValue);
+										arlValues.add(3, strValue.replace("-", ""));
 										break;
 									default:
 								}
@@ -473,6 +476,15 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 											ends[it].setBackground(Color.YELLOW);
 										}
 										arlValues.add(10, strValue);
+										break;
+									case CommandList.DR002_EMAIL:
+										strValue = ((JTextField)ends[it]).getText();
+										if(!strValue.matches("")) {
+											bResult &= false;
+											strValue = "Error";
+											ends[it].setBackground(Color.YELLOW);
+										}
+										arlValues.add(12, strValue);
 										break;
 									case CommandList.DR002_PASSWORD:
 										Document passDoc = ((JPasswordField)ends[it]).getDocument();
