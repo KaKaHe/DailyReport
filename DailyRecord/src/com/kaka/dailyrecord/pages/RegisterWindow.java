@@ -331,7 +331,9 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 
 			/**********2. Get all values after validation**********************/
 			if(valiResult) {
-				//if all the inputs are ok, it needs to check if the user name is available.
+				//if all the inputs are ok, call operate user function to process the data.
+				//Validation Result: 0: First Name 1: Last Name 2: Gender 3: Age 10: User name 11: Password 31: Security Question 32: Security Answer
+				//Input Parameters: 0: Password 1: First Name 2: Last Name 3: Email 4: Security Question 5: Security Answer 6: Birthday 7: Gender
 			} else {
 				//if there are error in inputs, show error message of the problems.
 			}
@@ -534,7 +536,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 											bResult &= false;
 											strValue = "Error";
 											ends[it].setBackground(Color.YELLOW);
-											arlValues.add(11, strValue);
+											arlValues.add(32, strValue);
 										}
 										break;
 									default:

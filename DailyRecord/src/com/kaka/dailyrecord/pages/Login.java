@@ -352,25 +352,24 @@ public class Login extends JFrame implements WindowListener, ActionListener {
 											}
 										} else {
 											//Show error message since the second password is not same with the first one.
-											JOptionPane.showMessageDialog(this.getParent(), "The passwords are not same.");
+											JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG010);
 										}
 									}
 								} else {
 									//If the password does not match the regular expression, show error message.
-									JOptionPane.showMessageDialog(this.getParent(), "The password cannot be accepted.");
+									JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG012);
 								}							
 							}
-							
 						} else {
 							//If the answer is not correct, show error message.
-							JOptionPane.showMessageDialog(this.getParent(), "The answer is not correct!");
+							JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG011);
 						}
 					} else {
-						//If getting security question is failed, show error message.
-						JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG003);
+						//If getting security question failed, it is considered as user does not exist, show error message.
+						JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG002);
 					}
 				} else {
-					//if the input user does not exist, show error message.
+					//if there is no input of user name, show error message.
 					JOptionPane.showMessageDialog(this.getParent(), CommandList.DR001_MSG002);
 				}
 			} catch (NoSuchAlgorithmException e) {

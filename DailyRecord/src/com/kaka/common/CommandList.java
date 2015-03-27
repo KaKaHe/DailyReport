@@ -5,7 +5,7 @@ package com.kaka.common;
 
 /**
  * @author KaKa
- *
+ * phrase constants
  */
 public final class CommandList {
 
@@ -53,6 +53,7 @@ public final class CommandList {
 /*********************************************************************************************/
 	
 /***Error Message:****************************************************************************/
+//	Login window
 	public static final String DR001_MSG001 = "User Name or Password is incorrect.";
 	public static final String DR001_MSG002 = "The user does not exist.";
 	public static final String DR001_MSG003 = "There is error about this account, please contact administrator.";
@@ -62,5 +63,12 @@ public final class CommandList {
 	public static final String DR001_MSG007 = "Data file error.";
 	public static final String DR001_MSG008 = "Setting new password failed.";
 	public static final String DR001_MSG009 = "New password setup succeed.";
+	public static final String DR001_MSG010 = "The passwords are not same.";
+	public static final String DR001_MSG011 = "The answer is not correct!";
+	public static final String DR001_MSG012 = "The password cannot be accepted.";
+
+//	Register window
+	
+//	Account Summary
 /*********************************************************************************************/
 }
