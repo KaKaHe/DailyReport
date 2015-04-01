@@ -335,10 +335,24 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 			/**********2. Get all values after validation**********************/
 			if(valiResult) {
 				//if all the inputs are ok, call operate user function to process the data.
-				//Validation Result: 0: First Name 1: Last Name 2: Gender 3: Birthday 10: User name 11: Password 12: Email 31: Security Question 32: Security Answer
-				//Input Parameters: 0: Password 1: First Name 2: Last Name 3: Email 4: Security Question 5: Security Answer 6: Birthday 7: Gender
+				//Validation Result <arlValues>: 
+				//		0: First Name 1: Last Name 2: Gender 3: Birthday 10: User name 11: Password 12: Email 31: Security Question 32: Security Answer
+				//Input Parameters (new String array): 
+				//		0: Password 1: First Name 2: Last Name 3: Email 4: Security Question 5: Security Answer 6: Birthday 7: Gender
 			} else {
 				//if there are error in inputs, show error message of the problems.
+				StringBuilder sbError = new StringBuilder();
+				
+				sbError.append("Please check following errors:");
+				
+				//Iterate the value arraylist to collect the error messages.
+				if(arlValues.get(0).equals("Error")) {
+					//First Name error
+				}
+				
+				if(arlValues.get(1).equals("Error")) {
+					//Last Name error
+				}
 			}
 			/**********3. Update data file*************************************/
 			
@@ -430,7 +444,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 										strValue = ((JTextField)ends[it]).getText();
 										if(!strValue.matches("^[a-zA-z]+([ '-][a-zA-Z]+)*$")) {
 											bResult &= false;
-											strValue = "Error";
+											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
 										arlValues.add(0, strValue);
@@ -439,7 +453,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 										strValue = ((JTextField)ends[it]).getText();
 										if(!strValue.matches("^[a-zA-z]+([ '-][a-zA-Z]+)*$")) {
 											bResult &= false;
-											strValue = "Error";
+											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
 										arlValues.add(1, strValue);
@@ -448,7 +462,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 										strValue = ((JTextField)ends[it]).getText();
 										if(!strValue.matches("^(19|20)[0-9]{2}-([0][1-9]|[1][12])-(0[1-9]|[12][0-9]|[3][01])$")) {
 											bResult &= false;
-											strValue = "Error";
+											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
 										arlValues.add(3, strValue.replace("-", ""));
@@ -470,18 +484,18 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 								switch(ends[it].getName()) {
 									case CommandList.DR002_USERNAME:
 										strValue = ((JTextField)ends[it]).getText();
-										if(!strValue.matches("")) {
+										if(!strValue.matches("^[a-zA-Z0-9-_+*.]{3,20}$")) {
 											bResult &= false;
-											strValue = "Error";
+											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
 										arlValues.add(10, strValue);
 										break;
 									case CommandList.DR002_EMAIL:
 										strValue = ((JTextField)ends[it]).getText();
-										if(!strValue.matches("")) {
+										if(!strValue.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9_.-]+.[a-zA-Z]{2,}$")) {
 											bResult &= false;
-											strValue = "Error";
+											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
 										arlValues.add(12, strValue);
@@ -492,22 +506,22 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 											strValue = passDoc.getText(0, passDoc.getLength());
 											if(!strValue.matches("^[a-zA-Z0-9&*_@.#]{8,16}$")) {
 												bResult &= false;
-												strValue = "Error";
+												strValue = CommandList.DR002_ERROR;
 												ends[it].setBackground(Color.YELLOW);
 											} else {
 												passDoc = ((JPasswordField)ends[it + 1]).getDocument();
 												if(!passDoc.getText(0, passDoc.getLength()).equals(strValue)) {
 													bResult &= false;
-													strValue = "Error";
+													strValue = CommandList.DR002_ERROR;
 													ends[it].setBackground(Color.YELLOW);
 													ends[it + 1].setBackground(Color.YELLOW);
 												}
 											}
-											arlValues.add(11, strValue.equals("Error") ? strValue : MD5.encrypt(strValue));
+											arlValues.add(11, strValue.equals(CommandList.DR002_ERROR) ? strValue : MD5.encrypt(strValue));
 										} catch (Exception e) {
 											// TODO Auto-generated catch block
 											bResult &= false;
-											strValue = "Error";
+											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 											arlValues.add(11, strValue);
 										}
@@ -526,27 +540,27 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 								switch(ends[it].getName()) {
 									case CommandList.DR002_SECURITY_QUESTION:
 										strValue = ((JTextField)ends[it]).getText();
-										if(strValue.equals("")) {
+										if(strValue.equals("^[a-zA-Z0-9 ?.,]{10,}$")) {
 											bResult &= false;
-											strValue = "Error";
+											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
 										arlValues.add(31, strValue);
 										break;
 									case CommandList.DR002_SECURITY_ANSWER:
 										strValue = ((JTextField)ends[it]).getText();
-										if(strValue.equals("")) {
+										if(strValue.equals("^[a-zA-Z0-9 .,'\"()*!&_=+/-]{2,}$")) {
 											bResult &= false;
-											strValue = "Error";
+											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
 										try {
-											arlValues.add(32, strValue.equals("Error") ? strValue : MD5.encrypt(strValue));
+											arlValues.add(32, strValue.equals(CommandList.DR002_ERROR) ? strValue : MD5.encrypt(strValue));
 										} catch (NoSuchAlgorithmException
 												| UnsupportedEncodingException e) {
 											// TODO Auto-generated catch block
 											bResult &= false;
-											strValue = "Error";
+											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 											arlValues.add(32, strValue);
 										}

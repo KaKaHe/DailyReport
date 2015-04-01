@@ -70,6 +70,7 @@ public final class CommandList {
 	public static final String DR001_MSG012 = "The password cannot be accepted.";
 
 //	Register window
+	public static final String DR002_ERROR = "Error";
 	
 //	Account Summary
 /*********************************************************************************************/
