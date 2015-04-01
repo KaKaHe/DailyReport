@@ -345,13 +345,41 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 				
 				sbError.append("Please check following errors:");
 				
-				//Iterate the value arraylist to collect the error messages.
-				if(arlValues.get(0).equals("Error")) {
+				//Collect all error messages.
+				if(arlValues.get(0).equals(CommandList.DR002_ERROR)) {
 					//First Name error
 				}
 				
-				if(arlValues.get(1).equals("Error")) {
+				if(arlValues.get(1).equals(CommandList.DR002_ERROR)) {
 					//Last Name error
+				}
+				
+				if(arlValues.get(2).equals(CommandList.DR002_ERROR)) {
+					//Gender error
+				}
+				
+				if(arlValues.get(3).equals(CommandList.DR002_ERROR)) {
+					//Birthday error
+				}
+				
+				if(arlValues.get(10).equals(CommandList.DR002_ERROR)) {
+					//User name format error
+				}
+				
+				if(arlValues.get(11).equals(CommandList.DR002_ERROR)) {
+					//Password error
+				}
+				
+				if(arlValues.get(12).equals(CommandList.DR002_ERROR)) {
+					//Email error
+				}
+				
+				if(arlValues.get(31).equals(CommandList.DR002_ERROR)) {
+					//Security Question error
+				}
+				
+				if(arlValues.get(32).equals(CommandList.DR002_ERROR)) {
+					//Security Answer error
 				}
 			}
 			/**********3. Update data file*************************************/
