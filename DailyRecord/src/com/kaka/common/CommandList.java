@@ -10,6 +10,7 @@ package com.kaka.common;
 public final class CommandList {
 
 	public static final String TOTAL_TITLE = "Daily Record";
+	public static final String UNKNOW_ERROR = "Unknown error occurred. Please contact support.";
 /***Label area:********************************************************************************/
 //	Login window
 	public static final String DR001_USERNAME = "User Name ";
@@ -71,6 +72,15 @@ public final class CommandList {
 
 //	Register window
 	public static final String DR002_ERROR = "Error";
+	public static final String DR002_ERROR_FIRSTNAME = "The input First Name is invalid.";
+	public static final String DR002_ERROR_LASTNAME = "The input Last Name is invalid.";
+	public static final String DR002_ERROR_GENDER = "The selected Gender is invalid.";
+	public static final String DR002_ERROR_BIRTHDAY = "The input Birthday date is invalid. Please confirm the format.";
+	public static final String DR002_ERROR_USERNAME = "The input Username format is invalid. (At least 3 characters.)";
+	public static final String DR002_ERROR_PASSWORD = "The input Password is invalid. Please confirm the format.";
+	public static final String DR002_ERROR_EMAIL = "The input Email is invalid. Please confirm the format.";
+	public static final String DR002_ERROR_SECURITYQUESTION = "The input Security Question is invalid. Please confirm the format.";
+	public static final String DR002_ERROR_SECURITYANSWER = "The input Security Answer is invalid. Please confirm the format.";
 	
 //	Account Summary
 /*********************************************************************************************/

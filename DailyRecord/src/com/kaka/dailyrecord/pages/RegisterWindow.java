@@ -342,44 +342,80 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 			} else {
 				//if there are error in inputs, show error message of the problems.
 				StringBuilder sbError = new StringBuilder();
+				Boolean bF = false;
 				
 				sbError.append("Please check following errors:");
 				
 				//Collect all error messages.
 				if(arlValues.get(0).equals(CommandList.DR002_ERROR)) {
 					//First Name error
+					sbError.append("\n");
+					sbError.append(CommandList.DR002_ERROR_FIRSTNAME);
+					bF &= true;
 				}
 				
 				if(arlValues.get(1).equals(CommandList.DR002_ERROR)) {
 					//Last Name error
+					sbError.append("\n");
+					sbError.append(CommandList.DR002_ERROR_LASTNAME);
+					bF &= true;
 				}
 				
 				if(arlValues.get(2).equals(CommandList.DR002_ERROR)) {
 					//Gender error
+					sbError.append("\n");
+					sbError.append(CommandList.DR002_ERROR_GENDER);
+					bF &= true;
 				}
 				
 				if(arlValues.get(3).equals(CommandList.DR002_ERROR)) {
 					//Birthday error
+					sbError.append("\n");
+					sbError.append(CommandList.DR002_ERROR_BIRTHDAY);
+					bF &= true;
 				}
 				
 				if(arlValues.get(10).equals(CommandList.DR002_ERROR)) {
 					//User name format error
+					sbError.append("\n");
+					sbError.append(CommandList.DR002_ERROR_USERNAME);
+					bF &= true;
 				}
 				
 				if(arlValues.get(11).equals(CommandList.DR002_ERROR)) {
 					//Password error
+					sbError.append("\n");
+					sbError.append(CommandList.DR002_ERROR_PASSWORD);
+					bF &= true;
 				}
 				
 				if(arlValues.get(12).equals(CommandList.DR002_ERROR)) {
 					//Email error
+					sbError.append("\n");
+					sbError.append(CommandList.DR002_ERROR_EMAIL);
+					bF &= true;
 				}
 				
 				if(arlValues.get(31).equals(CommandList.DR002_ERROR)) {
 					//Security Question error
+					sbError.append("\n");
+					sbError.append(CommandList.DR002_ERROR_SECURITYQUESTION);
+					bF &= true;
 				}
 				
 				if(arlValues.get(32).equals(CommandList.DR002_ERROR)) {
 					//Security Answer error
+					sbError.append("\n");
+					sbError.append(CommandList.DR002_ERROR_SECURITYANSWER);
+					bF &= true;
+				}
+				
+				if(bF) {
+					JOptionPane.showMessageDialog(this.getParent(), sbError.toString());
+				} else {
+					JOptionPane.showMessageDialog(this.getParent(), CommandList.UNKNOW_ERROR);
+					this.dispose();
+					Login.getInstance();
 				}
 			}
 			/**********3. Update data file*************************************/
