@@ -336,7 +336,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 			if(valiResult) {
 				//if all the inputs are ok, call operate user function to process the data.
 				//Validation Result <arlValues>: 
-				//		0: First Name 1: Last Name 2: Gender 3: Birthday 10: User name 11: Password 12: Email 31: Security Question 32: Security Answer
+				//		0: First Name 1: Last Name 2: Gender 3: Birthday 4: User name 5: Email 6: Password 7: Security Question 8: Security Answer
 				//Input Parameters (new String array): 
 				//		0: Password 1: First Name 2: Last Name 3: Email 4: Security Question 5: Security Answer 6: Birthday 7: Gender
 			} else {
@@ -351,63 +351,68 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 					//First Name error
 					sbError.append("\n");
 					sbError.append(CommandList.DR002_ERROR_FIRSTNAME);
-					bF &= true;
+					bF |= true;
 				}
 				
 				if(arlValues.get(1).equals(CommandList.DR002_ERROR)) {
 					//Last Name error
 					sbError.append("\n");
 					sbError.append(CommandList.DR002_ERROR_LASTNAME);
-					bF &= true;
+					bF |= true;
 				}
 				
 				if(arlValues.get(2).equals(CommandList.DR002_ERROR)) {
 					//Gender error
 					sbError.append("\n");
 					sbError.append(CommandList.DR002_ERROR_GENDER);
-					bF &= true;
+					bF |= true;
 				}
 				
 				if(arlValues.get(3).equals(CommandList.DR002_ERROR)) {
 					//Birthday error
 					sbError.append("\n");
 					sbError.append(CommandList.DR002_ERROR_BIRTHDAY);
-					bF &= true;
+					bF |= true;
 				}
 				
-				if(arlValues.get(10).equals(CommandList.DR002_ERROR)) {
+				//if(arlValues.get(10).equals(CommandList.DR002_ERROR)) {
+				if(arlValues.get(4).equals(CommandList.DR002_ERROR)) {
 					//User name format error
 					sbError.append("\n");
 					sbError.append(CommandList.DR002_ERROR_USERNAME);
-					bF &= true;
+					bF |= true;
 				}
 				
-				if(arlValues.get(11).equals(CommandList.DR002_ERROR)) {
+				//if(arlValues.get(11).equals(CommandList.DR002_ERROR)) {
+				if(arlValues.get(6).equals(CommandList.DR002_ERROR)) {
 					//Password error
 					sbError.append("\n");
 					sbError.append(CommandList.DR002_ERROR_PASSWORD);
-					bF &= true;
+					bF |= true;
 				}
 				
-				if(arlValues.get(12).equals(CommandList.DR002_ERROR)) {
+				//if(arlValues.get(12).equals(CommandList.DR002_ERROR)) {
+				if(arlValues.get(5).equals(CommandList.DR002_ERROR)) {
 					//Email error
 					sbError.append("\n");
 					sbError.append(CommandList.DR002_ERROR_EMAIL);
-					bF &= true;
+					bF |= true;
 				}
 				
-				if(arlValues.get(31).equals(CommandList.DR002_ERROR)) {
+				//if(arlValues.get(31).equals(CommandList.DR002_ERROR)) {
+				if(arlValues.get(7).equals(CommandList.DR002_ERROR)) {
 					//Security Question error
 					sbError.append("\n");
 					sbError.append(CommandList.DR002_ERROR_SECURITYQUESTION);
-					bF &= true;
+					bF |= true;
 				}
 				
-				if(arlValues.get(32).equals(CommandList.DR002_ERROR)) {
+				//if(arlValues.get(32).equals(CommandList.DR002_ERROR)) {
+				if(arlValues.get(8).equals(CommandList.DR002_ERROR)) {
 					//Security Answer error
 					sbError.append("\n");
 					sbError.append(CommandList.DR002_ERROR_SECURITYANSWER);
-					bF &= true;
+					bF |= true;
 				}
 				
 				if(bF) {
@@ -506,6 +511,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 								switch(ends[it].getName()) {
 									case CommandList.DR002_FIRSTNAME:
 										strValue = ((JTextField)ends[it]).getText();
+										ends[it].setBackground(Color.WHITE);
 										if(!strValue.matches("^[a-zA-z]+([ '-][a-zA-Z]+)*$")) {
 											bResult &= false;
 											strValue = CommandList.DR002_ERROR;
@@ -515,6 +521,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 										break;
 									case CommandList.DR002_LASTNAME:
 										strValue = ((JTextField)ends[it]).getText();
+										ends[it].setBackground(Color.WHITE);
 										if(!strValue.matches("^[a-zA-z]+([ '-][a-zA-Z]+)*$")) {
 											bResult &= false;
 											strValue = CommandList.DR002_ERROR;
@@ -524,6 +531,7 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 										break;
 									case CommandList.DR002_BIRTHDAY:
 										strValue = ((JTextField)ends[it]).getText();
+										ends[it].setBackground(Color.WHITE);
 										if(!strValue.matches("^(19|20)[0-9]{2}-([0][1-9]|[1][12])-(0[1-9]|[12][0-9]|[3][01])$")) {
 											bResult &= false;
 											strValue = CommandList.DR002_ERROR;
@@ -548,26 +556,31 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 								switch(ends[it].getName()) {
 									case CommandList.DR002_USERNAME:
 										strValue = ((JTextField)ends[it]).getText();
+										ends[it].setBackground(Color.WHITE);
 										if(!strValue.matches("^[a-zA-Z0-9-_+*.]{3,20}$")) {
 											bResult &= false;
 											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
-										arlValues.add(10, strValue);
+										//arlValues.add(10, strValue);
+										arlValues.add(4, strValue);
 										break;
 									case CommandList.DR002_EMAIL:
 										strValue = ((JTextField)ends[it]).getText();
+										ends[it].setBackground(Color.WHITE);
 										if(!strValue.matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9_.-]+.[a-zA-Z]{2,}$")) {
 											bResult &= false;
 											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
-										arlValues.add(12, strValue);
+										//arlValues.add(12, strValue);
+										arlValues.add(5, strValue);
 										break;
 									case CommandList.DR002_PASSWORD:
 										Document passDoc = ((JPasswordField)ends[it]).getDocument();
 										try {
 											strValue = passDoc.getText(0, passDoc.getLength());
+											ends[it].setBackground(Color.WHITE);
 											if(!strValue.matches("^[a-zA-Z0-9&*_@.#]{8,16}$")) {
 												bResult &= false;
 												strValue = CommandList.DR002_ERROR;
@@ -581,13 +594,15 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 													ends[it + 1].setBackground(Color.YELLOW);
 												}
 											}
-											arlValues.add(11, strValue.equals(CommandList.DR002_ERROR) ? strValue : MD5.encrypt(strValue));
+											//arlValues.add(11, strValue.equals(CommandList.DR002_ERROR) ? strValue : MD5.encrypt(strValue));
+											arlValues.add(6, strValue.equals(CommandList.DR002_ERROR) ? strValue : MD5.encrypt(strValue));
 										} catch (Exception e) {
 											// TODO Auto-generated catch block
 											bResult &= false;
 											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
-											arlValues.add(11, strValue);
+											//arlValues.add(11, strValue);
+											arlValues.add(6, strValue);
 										}
 										break;
 //									case CommandList.DR002_CONFIRMPASSWORD:
@@ -597,36 +612,41 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 							}
 						}
 					} else if(jpChild.getName().equals(CommandList.DR002_SECURITY_PANEL)) {
-						ends = jpChild.getComponents();
+						ends = ((JPanel)jpChild.getComponents()[1]).getComponents();
 						
 						for(int it = 0; it < ends.length; it ++) {
 							if(ends[it] instanceof JTextField) {
 								switch(ends[it].getName()) {
 									case CommandList.DR002_SECURITY_QUESTION:
 										strValue = ((JTextField)ends[it]).getText();
-										if(strValue.equals("^[a-zA-Z0-9 ?.,]{10,}$")) {
+										ends[it].setBackground(Color.WHITE);
+										if(strValue.isEmpty() || !strValue.equals("^[a-zA-Z0-9 ?.,]{10,}$")) {
 											bResult &= false;
 											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
-										arlValues.add(31, strValue);
+										//arlValues.add(31, strValue);
+										arlValues.add(7, strValue);
 										break;
 									case CommandList.DR002_SECURITY_ANSWER:
 										strValue = ((JTextField)ends[it]).getText();
-										if(strValue.equals("^[a-zA-Z0-9 .,'\"()*!&_=+/-]{2,}$")) {
+										ends[it].setBackground(Color.WHITE);
+										if(strValue.isEmpty() || !strValue.equals("^[a-zA-Z0-9 .,'\"()*!&_=+/-]{2,}$")) {
 											bResult &= false;
 											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
 										}
 										try {
-											arlValues.add(32, strValue.equals(CommandList.DR002_ERROR) ? strValue : MD5.encrypt(strValue));
+											//arlValues.add(32, strValue.equals(CommandList.DR002_ERROR) ? strValue : MD5.encrypt(strValue));
+											arlValues.add(8, strValue.equals(CommandList.DR002_ERROR) ? strValue : MD5.encrypt(strValue));
 										} catch (NoSuchAlgorithmException
 												| UnsupportedEncodingException e) {
 											// TODO Auto-generated catch block
 											bResult &= false;
 											strValue = CommandList.DR002_ERROR;
 											ends[it].setBackground(Color.YELLOW);
-											arlValues.add(32, strValue);
+											//arlValues.add(32, strValue);
+											arlValues.add(8, strValue);
 										}
 										break;
 									default:
