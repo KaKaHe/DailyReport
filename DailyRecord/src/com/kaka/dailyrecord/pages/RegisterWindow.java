@@ -331,6 +331,8 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 			Object jcRoot = ((JButton)arg0.getSource()).getParent().getParent();
 			//Pass the root container to validation function
 			Boolean valiResult = validateInput(jcRoot);
+			//Declare passing parameter
+			String[] strNew = new String[8];
 
 			/**********2. Get all values after validation**********************/
 			if(valiResult) {
@@ -605,8 +607,6 @@ public class RegisterWindow extends JFrame implements WindowListener, ActionList
 											arlValues.add(6, strValue);
 										}
 										break;
-//									case CommandList.DR002_CONFIRMPASSWORD:
-//										break;
 									default:
 								}
 							}
